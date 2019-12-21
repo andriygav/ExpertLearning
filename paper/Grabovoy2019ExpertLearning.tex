@@ -1,0 +1,154 @@
+\documentclass[12pt, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{amsthm}
+\usepackage{a4wide}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{euscript}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+
+
+\usepackage[toc,page]{appendix}
+
+\usepackage{comment}
+\usepackage{rotating}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{definition}{Определение}[section]
+
+\numberwithin{equation}{section}
+
+\newcommand*{\No}{No.}
+\begin{document}
+
+\title{\bf Задача обучения с экспертной информацией \thanks{Работа выполнена при поддержке РФФИ и правительства РФ.}}
+\date{}
+\author{}
+\maketitle
+
+\begin{center}
+\bf
+А.\,В.~Грабовой\footnote{Московский физико-технический институт, grabovoy.av@phystech.edu}, В.\,В.~Стрижов\footnote{Московский физико-технический институт, strijov@ccas.ru}
+
+\end{center}
+
+{\centering\begin{quote}
+\textbf{Аннотация:} 
+\smallskip
+\textbf{Ключевые слова}: смесь экспертов; байесовский выбор модели; априорное распределение.
+
+\smallskip
+\textbf{DOI}: 00.00000/00000000000000
+\end{quote}
+}
+
+\section{Введение}
+\section{Постановка задачи}
+Пусть задано множество объектов~$\bm{\Omega}$, а также подмножество наблюдаемых объектов~$\bm{\Omega}'$
+\begin{equation}
+\label{eq:st:1}
+\begin{aligned}
+\bm{\Omega}'\subset\bm{\Omega},
+\end{aligned}
+\end{equation}
+где~$\left|\bm{\Omega}'\right|=N$.
+Пусть для~$\bm{\Omega}$ задана некоторая экспертная информация~$\bm{E}\left(\bm{\Omega}\right)$.
+
+На основе экспертной информации~$\bm{E}\left(\bm{\Omega}\right)$ введем отображения из множества объектов~$\bm{\Omega}$:
+\begin{equation}
+\label{eq:st:2}
+\begin{aligned}
+K_y^{\bm{E}\left(\bm{\Omega}\right)} :\bm{\Omega}\to \mathbb{R}, \quad K_x^{\bm{E}\left(\bm{\Omega}\right)} :\bm{\Omega}\to \mathbb{R}^{n},
+\end{aligned}
+\end{equation}
+где~$n$ количество признаков, причем предполагаем, что~$n\ll N$. Применив отображения~$K_x^{\bm{E}\left(\bm{\Omega}\right)}$ и~$K_y^{\bm{E}\left(\bm{\Omega}\right)}$ для множества наблюдаемых объектов~$\bm{\Omega}'$ получаем выборку:
+\begin{equation}
+\label{eq:st:3}
+\begin{aligned}
+\mathfrak{D}\left(\bm{\Omega}',\bm{E}\left(\bm{\Omega}\right)\right) = \{\left(\textbf{x}, y\right)|\textbf{x}=K_x^{\bm{E}\left(\bm{\Omega}\right)}\left(\omega\right),~y=K_y^{\bm{E}\left(\bm{\Omega}\right)}\left(\omega\right),~\forall \omega \in \bm{\Omega}'\},
+\end{aligned}
+\end{equation}
+
+Предполагается, что существуют нетривиальные отображения~$K_y^{\bm{E}\left(\bm{\Omega}\right)}, K_x^{\bm{E}\left(\bm{\Omega}\right)}$, и~$\textbf{w}\in\mathbb{R}^{n}$, такие, что:
+\begin{equation}
+\label{eq:st:4}
+\begin{aligned}
+y \approx \textbf{x}^{\mathsf{T}}\textbf{w}, \quad \forall\left(\textbf{x}, y\right)\in\mathfrak{D}\left(\bm{\Omega}',\bm{E}\left(\bm{\Omega}\right)\right),
+\end{aligned}
+\end{equation}
+то есть получаем выборку, которая является задачей линейной регрессии по нахождению неизвестного вектора~$\textbf{w}$ (аналогично можно ввести задачу для логистической регрессии).
+
+В случае, когда экспертная информация представляется в виде объединения нескольких экспертов:
+\begin{equation}
+\label{eq:st:5}
+\begin{aligned}
+\bm{E}\left(\bm{\Omega}\right) = \bm{E}_0\left(\bm{\Omega}\right)\cup\bm{E}_1\left(\bm{\Omega}_1\right)\cup\bm{E}_2\left(\bm{\Omega}_2\right)\cup\cdots\cup\bm{E}_K\left(\bm{\Omega}_K\right), \quad \cup_{i=k}^{K}\bm{\Omega}_k=\bm{\Omega}
+\end{aligned}
+\end{equation}
+в этом случае будем говорить о задаче смеси~$K$ экспертов. Каждая информация~$\bm{E}_k\left(\bm{\Omega}_k\right)$ описывает локальную информацию о каком-то подмножестве объектов~$\bm{\Omega}_k$ для всех~$k=\overline{1...K}$. Информация эксперта~$\bm{E}_0\left(\bm{\Omega}\right)$ описывает глобальную информацию о всем множестве объектов~$\bm{\Omega}$.
+
+В случае задачи смеси~$K$ экспертов вводятся отображения:
+\begin{equation}
+\label{eq:st:6}
+\begin{aligned}
+K_y^{\bm{E}_1\left(\bm{\Omega}_1\right)} :\bm{\Omega}\to \mathbb{R}, \quad K_x^{\bm{E}_1\left(\bm{\Omega}_1\right)} :\bm{\Omega}\to \mathbb{R}^{n_1},\\
+\cdots\\
+K_y^{\bm{E}_K\left(\bm{\Omega}_K\right)} :\bm{\Omega}\to \mathbb{R}, \quad K_x^{\bm{E}_K\left(\bm{\Omega}_K\right)} :\bm{\Omega}\to \mathbb{R}^{n_K},\\
+\end{aligned}
+\end{equation}
+где получаем множество отображений во множество локальных моделей, в которых учтены информации от каждого эксперта.
+
+Также, как в и задаче одного эксперта вводится предположения, что каждая локальная модель является линейной:
+\begin{equation}
+\label{eq:st:7}
+\begin{aligned}
+\forall k\in\{1,\cdots K\}, \quad y \approx \textbf{x}^{\mathsf{T}}\textbf{w}_k, \quad \forall\left(\textbf{x}, y\right)\in\mathfrak{D}\left(\bm{\Omega}'_{k},\bm{E}\left(\bm{\Omega}_k\right)\right).
+\end{aligned}
+\end{equation}
+
+Заметим, что истинного разбиения~$\bm{\Omega}$ на множества~$\{\bm{\Omega}_k\}_{k=1}^{K}$ нету. Рассмотрим вектор функцию~$\bm{\pi}$:
+\begin{equation}
+\label{eq:st:8}
+\begin{aligned}
+\bm{\pi}:\bm{\Omega}\to \mathbb{R}^{K}, \quad \sum_{k=1}^{K}\pi_{k}\left(\omega\right)=1,~\forall\omega\in\bm{\Omega},
+\end{aligned}
+\end{equation}
+где~$\bm{\pi}$ назовем шлюзовой функцией.
+
+Предположим, что все~$\left\{\left(K_x^{\bm{E}_k\left(\bm{\Omega}_k\right)}, K_y^{\bm{E}_k\left(\bm{\Omega}_k\right)}\right)\right\}_{k=1}^{K}$ являются заданными отображениями. Используя локальные модели, построим глобальную мультимодель, которая описывает все множество объектов~$\bm{\Omega}$:
+\begin{equation}
+\label{eq:st:9}
+\begin{aligned}
+\sum_{\omega \in \bm{\Omega}'}\sum_{k=1}^{K}\pi_{k}\left(\omega, \textbf{V}\right)\left(K_y^{\bm{E}_k\left(\bm{\Omega}_k\right)}\left(\omega\right) - \textbf{w}_{k}^{\mathsf{T}}K_x^{\bm{E}_k\left(\bm{\Omega}_k\right)}\left(\omega\right) \right)^2 + R\left(\textbf{V}, \textbf{W}, \bm{E}\left(\bm{\Omega}\right)\right) \to \min_{\textbf{V}, \textbf{W}}
+\end{aligned}
+\end{equation}
+где~$\textbf{W}=[\textbf{w}_1^\mathsf{T}, \cdots, \textbf{w}_K^{\mathsf{T}}]$, а~$R\left(\textbf{V}, \textbf{W}, \bm{E}\left(\bm{\Omega}\right)\right)$ является некоторой регуляризацией параметров, которая также основывается на экспертной информации, $\textbf{V}$~--- параметры шлюзовой функции.
+
+\section{Пример}
+
+\begin{thebibliography}{99}
+\bibitem{Yuksel2012}
+	\textit{Yuksel Seniha Esen, Wilson Joseph N., Gader Paul D} Twenty Years of Mixture of Experts~// IEEE Transactions on Neural Networks and Learning Systems. 2012. Issues. 23, No 8. pp. 1177--1193.
+		
+\bibitem{bishop2006}
+	\textit{Bishop C.} Pattern Recognition and Machine Learning.~---~Berlin: Springer, 2006. 758~p.
+ \end{thebibliography}
+
+
+\end{document}
+
