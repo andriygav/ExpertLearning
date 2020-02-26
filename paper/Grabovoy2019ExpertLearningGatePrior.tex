@@ -1,0 +1,80 @@
+\documentclass[12pt, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{amsthm}
+\usepackage{a4wide}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{euscript}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+
+
+\usepackage[toc,page]{appendix}
+
+\usepackage{comment}
+\usepackage{rotating}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{definition}{Определение}[section]
+
+\numberwithin{equation}{section}
+
+\newcommand*{\No}{No.}
+\begin{document}
+
+\title{\bf Задание априорных знаний на шлюзовую функцию \thanks{Работа выполнена при поддержке РФФИ и правительства РФ.}}
+\date{}
+\author{}
+\maketitle
+
+\begin{center}
+\bf
+А.\,В.~Грабовой\footnote{Московский физико-технический институт, grabovoy.av@phystech.edu}, В.\,В.~Стрижов\footnote{Московский физико-технический институт, strijov@ccas.ru}
+
+\end{center}
+
+{\centering\begin{quote}
+\textbf{Аннотация:} 
+\smallskip
+\textbf{Ключевые слова}: смесь экспертов; байесовский выбор модели; априорное распределение.
+
+\smallskip
+\textbf{DOI}: 00.00000/00000000000000
+\end{quote}
+}
+
+\section{Введение}
+\section{Постановка задачи}
+\[
+\label{eq:st:6}
+\begin{aligned}
+p\bigr(y|\textbf{x}, \textbf{W}\bigr)=\lambda\sum_{k=1}^{K}\pi_{k}\bigr(\textbf{x}, \textbf{V}\bigr)p_k\bigr(y|\textbf{x}, \textbf{w}_k\bigr)+\left(1-\lambda\right)\sum_{k=1}^{K}\varepsilon_{k}p_k\bigr(y|\textbf{x}, \textbf{w}_k\bigr), \quad \sum_{k=1}^{K}\varepsilon_k=1
+\end{aligned}
+\]
+где~$K$~--- количество моделей,~$\textbf{W}$~--- параметры локальных моделей,~$V$~--- параметры шлюзовой функции.
+
+\begin{thebibliography}{99}
+\bibitem{Yuksel2012}
+	\textit{Yuksel Seniha Esen, Wilson Joseph N., Gader Paul D} Twenty Years of Mixture of Experts~// IEEE Transactions on Neural Networks and Learning Systems. 2012. Issues. 23, No 8. pp. 1177--1193.
+		
+\bibitem{bishop2006}
+	\textit{Bishop C.} Pattern Recognition and Machine Learning.~---~Berlin: Springer, 2006. 758~p.
+ \end{thebibliography}
+
+
+\end{document}
+
