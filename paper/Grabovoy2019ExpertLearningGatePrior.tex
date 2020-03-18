@@ -62,7 +62,7 @@
 \[
 \label{eq:st:6}
 \begin{aligned}
-p\bigr(y|\textbf{x}, \textbf{W}\bigr)=\lambda\sum_{k=1}^{K}\pi_{k}\bigr(\textbf{x}, \textbf{V}\bigr)p_k\bigr(y|\textbf{x}, \textbf{w}_k\bigr)+\left(1-\lambda\right)\sum_{k=1}^{K}\varepsilon_{k}p_k\bigr(y|\textbf{x}, \textbf{w}_k\bigr), \quad \sum_{k=1}^{K}\varepsilon_k=1
+p\bigr(y|\textbf{x}, \textbf{W}\bigr)=\lambda\sum_{k=1}^{K}\pi_{k}\bigr(\textbf{x}, \textbf{V}\bigr)p_k\bigr(y|\textbf{x}, \textbf{w}_k\bigr)+\left(1-\lambda\right)\sum_{k=1}^{K}\varepsilon_{k}\bigr(\textbf{x}\bigr)p_k\bigr(y|\textbf{x}, \textbf{w}_k\bigr), \quad \sum_{k=1}^{K}\varepsilon_k\bigr(\textbf{x}\bigr)=1
 \end{aligned}
 \]
 где~$K$~--- количество моделей,~$\textbf{W}$~--- параметры локальных моделей,~$V$~--- параметры шлюзовой функции.
