@@ -1,0 +1,64 @@
+\documentclass[12pt, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usepackage{amsthm}
+\usepackage{a4wide}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{mathrsfs}
+\usepackage{euscript}
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{caption}
+\usepackage{color}
+\usepackage{bm}
+\usepackage{tabularx}
+\usepackage{adjustbox}
+
+
+\usepackage[toc,page]{appendix}
+
+\usepackage{comment}
+\usepackage{rotating}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newtheorem{theorem}{Теорема}
+\newtheorem{lemma}[theorem]{Лемма}
+\newtheorem{definition}{Определение}[section]
+
+\numberwithin{equation}{section}
+
+\newcommand*{\No}{No.}
+\begin{document}
+
+\title{\bf Анализ свойств моделей в задачах обучения с экспертом}
+\date{}
+\author{}
+\maketitle
+
+\begin{center}
+\bf
+А.\,И. Базарова\footnote{Московский физико-технический институт, bazarova.ai@phystech.edu}, А.\,В.~Грабовой\footnote{Московский физико-технический институт, grabovoy.av@phystech.edu}, В.\,В.~Стрижов\footnote{Московский физико-технический институт, strijov@ccas.ru}
+
+\end{center}
+
+{\centering\begin{quote}
+\textbf{Аннотация:} В данной работе решается задача поиска заданного набора фигур на изображении в предположении, что фигуры являются кривыми второго порядка. Построение моделей машинного обучения основывается на информации о виде этих кривых и множестве их возможных преобразований. Такую информацию называют \textit{экспертными знаниями}, а метод машинного обучения, основанный на \textit{экспертных знаниях}, называют \textit{обучением с экспертом}.
+    В работе предлагается отобразить кривые второго порядка в новое признаковое пространство, в котором каждая локальная модель является линейной моделью. Таким образом, распознавание кривых высших порядков может быть осуществлено при помощи композиции линейных моделей. В работе поставлена и решена задача оптимизации для поиска оптимальных параметров мультимодели.
+    Качество работы предложенного метода сравнивается на синтетических данных и датасетах с реальными изображениями, которые включают в себя кривые второго порядка.
+    
+\smallskip
+\textbf{Ключевые слова}: смесь моделей, обучение с экспертом, линейные модели
+
+\smallskip
+\textbf{DOI}: 00.00000/00000000000000
+\end{quote}
+}
+
+\end{document}
+
