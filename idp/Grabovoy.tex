@@ -12,15 +12,13 @@
     $^2$Москва, Вычислительный центр им. А.\,А.~Дородницына ФИЦ ИУ РАН}
 \maketitle
 
-Построение интерпретируемых моделей является одной из основных проблем в машинном обучении. Для повышения качества аппроксимации  повышается сложность модели, из-за чего ухудшается ее интерпретируемость. Для повышения качества аппроксимации без повышения сложности модели предлагается использовать экспертную информацию о данных. Такая информация называется \textit{экспертной}, а метод машинного обучения, основанный на экспертной информации, называется \textit{обучением с экспертом}.
+Построение интерпретируемых моделей является одной из основных проблем в машинном обучении. Для повышения качества аппроксимации повышается сложность модели, из-за чего снижается ее интерпретируемость. Для повышения качества аппроксимации без повышения сложности модели предлагается использовать экспертную информацию о данных. Метод машинного обучения, основанный на экспертной информации, называется \textit{обучением с экспертом}.
 
-Данное исследование посвящено построению интерпретируемых моделей в машинном обучении на основе экспертного представления о данных. Решается задача аппроксимации кривых второго порядка на контурном изображении. Предполагается, что кривая второго порядка описывается одной моделью, а экспертная информация позволяет отобразить точки изображения в новое пространство, где данная кривая описывается линейной моделью. При аппроксимации нескольких кривых на одном изображении строится мультимодель на основе смеси экспертов.
+Данное исследование посвящено построению интерпретируемых моделей на основе экспертного априорного представления о решаемой задаче. Решается задача аппроксимации кривых второго порядка на контурном изображении. Предполагается, что кривая второго порядка описывается одной моделью. Экспертная информация позволяет отобразить точки изображения в новое пространство, где данная кривая описывается линейной моделью. При аппроксимации нескольких кривых на одном изображении строится мультимодель на основе смеси экспертов.
 
-В качестве простого примера кривой второго порядка рассматриваются окружности. Поиск окружностей на изображении является простым решением задачи аппроксимации радужки глаза: в простом приближении глаз можно представить как две концентрические окружности на изображении. Каждая окружность аппроксимируется одной линейной моделью, предварительно отобразив их в новое пространство на основе уравнения окружности. Заметим, что в данной постановке каждое аппроксимируемое изображение глаза это отдельный набор точек, которые требуется аппроксимировать.
+Решается задача аппроксимации радужки глаза. Глаз представляется как две концентрические окружности на изображении. Каждая окружность аппроксимируется одной линейной моделью. Изображение глаза является набором точек, которые требуется аппроксимировать. В вычислительном эксперименте анализируется качество аппроксимации контурного изображения при помощи предложенного метода. Проводится анализ качества аппроксимации радужки глаза. 
 
-В вычислительном эксперименте анализируется качество аппроксимации контурного изображения при помощи предложенного метода. Проводится анализ качества аппроксимации радужки глаза в зависимости от количества экспертной информации, которая использовалась при построении модели. 
-
-Работа выполнена при поддержке РФФИ (проекты ??) и НТИ (проект ??).
+Работа выполнена при поддержке РФФИ (проекты 19-07-01155, 19-07-00875) и НТИ (проект 13/1251/2018).
 
 \begin{thebibliography}{1}
 \bibitem{grabovoy2020}
@@ -29,23 +27,24 @@
 \end{thebibliography}
 
 \English
-\title{Order on the set of neural network parameters}
+\title{Expert learning for interpretable model selection}
 \author{Grabovoy~A.}{Andrey Grabovoy$^1$\speaker}{grabovoy.av@phystech.edu}
 \author{Strijov~V.}{Vadim Strijov$^{1}$}{strijov@phystech.edu}
 \organization{%
     $^1$Moscow, Moscow Institute of Physics and Technology\par
     $^2$Moscow, FRCCSC of the Russian Academy of Sciences}
 \maketitle
+The interpretable model selection is an important problem in machine learning. To improve the approximation quality one has to increase the number of model parameters. It results in a less interpretable model. The authors propose to use an expert prior information to improve the quality without increasing the complexity of the model. This information is called the expert information. The machine learning method based on an expert information is called expert learning.
 
-Construction of the interpretive models is a very important part of machine learning. To improve the quality of the approximation, the number of model parameters increases. As a result, the model is less interpretable. It is proposed to use expert information about the data, to improve the quality of the approximation without increasing the complexity of the model. Its information is called expert, and the machine learning method based on expert information is called expert learning.
+This work analyzes the interpretable model selection. It solves the problem of approximating second-order curves on a given contour image.
+It is assumed that the second-order curve is described by one model, and the expert information maps the points of an image into a new space, where this curve is described by a linear model.
+ A mixture of experts approximate to approximate several curves on one image.
 
-This work analyzes constructing interpretable models in machine learning based on an expert view of data. The problem of approximating second-order curves on a contour image is solved. It is assumed that the second-order curve is described by one model, and the expert information allows mapping the image points into a new space, where this curve is described by a linear model. A mixture of experts allows to approximate several curves on one image.
-
-A circle is a simple example of a second-order curve. Circles approximation in an image is a simple solution to the problem of approximating the iris of the eye. The eyes can be represented as two concentric circles in the image. Each circle is approximated by one linear model, having previously mapped them into a new space based on the circle equation. Note that in this setting, each approximated eye image is a separate set of points that need to be approximated.
+A circle is an example of a second-order curve. The iris is represented as two concentric circles in an image. Each circle is approximated by one linear model.
 
 The computational experiment analyses the proposed method for the contour image approximation. It uses synthetic and real data to test the proposed method. The real data is a human eye image from the iris detection problem.
 
-This research was supported by RFBR (projects ??) and NTI (project ??).
+This research was supported by RFBR (projects 19-07-01155, 19-07-00875) and NTI (project 13/1251/2018).
 
 \begin{thebibliography}{1}
 \bibitem{grabovoy2020}
