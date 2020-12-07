@@ -7,7 +7,7 @@
 
 \setbeamertemplate{footline}[page number]
 \usecolortheme{seagull}
-\setbeamersize{text margin left=0.5em, text margin right=0.5em}
+\setbeamersize{text margin left=1.5em, text margin right=1.5em}
 }
 
 \usepackage[utf8]{inputenc}
@@ -24,17 +24,17 @@
 
 
 \newtheorem{rustheorem}{Теорема}
+\newtheorem{rusdefinition}{Определение}
 
 \AtBeginEnvironment{figure}{\setcounter{subfigure}{0}}% Resets subfigure counter at start of figure environment
 
 %----------------------------------------------------------------------------------------------------------
 \title[\hbox to 56mm{Обучение с экспетом\hfill\insertframenumber\,/\,\inserttotalframenumber}]
-{Задача обучения с экспертом для построение\\ интерпретируемых моделей машинного обучения}
-\author[А.\,В.~Грабовой]{\large Грабовой Андрей Валериевич}
-\institute{\large
-Московский физико-технический институт}
+{Задача обучения с экспертом для построения\\ интерпретируемых моделей машинного обучения}
+\author[А.\,В.\;Грабовой]{\large Грабовой Андрей Валериевич}
+\institute[]{Кафедра интеллектуального анализа данных\\Научный руководитель: д.ф.-м.н. В.\,В.\;Стрижов\\}
 
-\date{\footnotesize{МФТИ, г. Москва}}
+\date[2020]{Московский физико-технический институт\\8 декабря 2020 г.}
 %----------------------------------------------------------------------------------------------------------
 
 \begin{document}
@@ -44,26 +44,26 @@
 \end{frame}
 
 %----------------------------------------------------------------------------------------------------------
-\begin{frame}{Вероятностная интерпретация дистилляции моделей}
+\begin{frame}{Обучение с экспертной информацией о данных}
 \justifying
 \textbf{Цель}
 
-Предложить постановку задачи обучения с \textit{экспертной информацией} для обучения интерпретируемых моделей машинного обучения. 
-
-~\\
-\textbf{Задачи}
-
-\begin{enumerate}
-\justifying
-	\item Поставить задачу обучения с экспертной информацией.
-	\item Предложить метод решения предложенной задачи.
-	\item Провести анализ предложенного метода для задачи аппроксимации кривых второго порядка.
-\end{enumerate}
+Предложить метод обучения выбора моделей машинного обучения на основе \textit{экспертной информацией} об исследуемых объектах.
 
 ~\\
 \textbf{Исследуемая проблема}
 
-Построение интерпретируемых моделей глубокого обучения.
+Снижение размерности пространства параметров моделей глубокого обучения при помощи интерпретируемых моделей машинного обучения на основе экспертной информации.
+
+~\\
+\textbf{Требуется}
+
+\begin{enumerate}
+\justifying
+	\item Формально поставить задача обучения на основе экспертного описания данных.
+	\item Предложить метод решения на основе построения экспертного признакового описания объектов. 
+	\item Использовать этот метод для решения задачи аппроксимации кривых второго порядка на бинарном изображении.
+\end{enumerate}
 
 \end{frame}
 
@@ -79,16 +79,16 @@
 
 %----------------------------------------------------------------------------------------------------------
 
-\begin{frame}{Обучение с экспертной информацией}
+\begin{frame}{Аппроксимации кривых второго порядка}
 \justifying
 \begin{center}
 	\includegraphics[width=0.9\textwidth]{figures/explanation}
 \end{center}
 
 \begin{enumerate}
-    \item Учитель~$\mathbf{f}$ влияет на выбор ученика~$\mathbf{g}$ в пространстве~$x$.
-    \item Учитель~$\mathbf{f}_1$ корректирует шумные данные в $x$.
-    \item Модель учителя~$\mathbf{f}_2$ более сложная, поэтому она аппроксимирует также и шум.
+    \item[(b)] Исходный набор точек на изображении.
+    \item[(a)] Представление первого эксперта: $K^{1}_x, K^{1}_y$ --- отображение в данное представление.
+    \item[(c)] Представление второго эксперта: $K^{2}_x, K^{2}_y$ --- отображение в данное представление.
 \end{enumerate}
 
 \end{frame}
@@ -104,31 +104,29 @@
 где $1$~--- точка изображение,  а $0$~--- точка фона. 
 
 Точки изображения --- кривая второго порядка~$\Omega$.
-
 Координаты точек изображения $\mathbf{C} \in \mathbb{R}^{N\times2}$.
+Задана экспертная информация $E\bigr(\Omega\bigr)$ о фигуре~$\Omega$.
 
-Экспертная информация о фигуре~$\Omega$ обозначается $E\bigr(\Omega\bigr)$.
-
-Построение новой задачи:
+Признаковое описание экспертов:
 \[
 K_x\bigr(E\bigr(\Omega\bigr)\bigr):\mathbb{R}^{2} \to \mathbb{R}^{n},
 \quad K_y\bigr(E\bigr(\Omega\bigr)\bigr): \mathbb{R}^{2} \to \mathbb{R},
 \]
-где $K_x, K_y$ отображения объектов в признаковое описание и пространство ответов.
+где $K_x, K_y$ отображения в признаковое описание и пространство ответов.
 
-Выборка для аппроксимации:
+Набор данных для аппроксимации кривых:
 \[
-\mathfrak{D} = \{(\mathbf{x}, y) \; | \; \forall \mathbf{c} \in \mathbf{C} \; \mathbf{x} = K_x(\mathbf{c}), \; y = K_y(\mathbf{c}) \}.
+\mathfrak{D} = \{(\mathbf{x}, y) \; | \; \forall \mathbf{c} \in \mathbf{C} \;\quad \mathbf{x} = K_x(\mathbf{c}), \; y = K_y(\mathbf{c}) \}.
 \]
 
-В данной работе предполагается, что выборка~$\mathfrak{D}$ аппроксимируется линейной моделью:
-\[
+В данной работе предполагается, что выборка~$\mathfrak{D}$ аппроксимируется линейной моделью
+$
 	g(\mathbf{x}, \mathbf{w}) = \mathbf{x}^\mathsf{T} \mathbf{w},
-\]
+$
 где~$\mathbf{w}$ вектор, параметр, который требуется найти.
 
 
-Требуется решить следующую оптимизационную задачу:
+Требуется решить оптимизационную задачу:
 \[
 	\hat{\mathbf{w}} = \arg\min_{\mathbf{w}\in\mathbb{R}^n} \sum_{\left(\mathbf{x}, y\right) \in \mathfrak{D}}\|g(\mathbf{x}, \mathbf{w}) - y \|_2^2.
 \]
@@ -138,71 +136,59 @@ K_x\bigr(E\bigr(\Omega\bigr)\bigr):\mathbb{R}^{2} \to \mathbb{R}^{n},
 
 \begin{frame}{Постановка задачи: признаковое описание кривых}
 \justifying
-Произвольная кривая второго порядка, главная ось которой не параллельна оси ординат, задается следующим выражением:
+Кривая второго порядка: главная ось которой не параллельна оси ординат:
 \[
-\label{st:coef}
+\setlength\abovedisplayskip{0pt}
 x^2 = B'xy+C'y^2+D'x+E'y+F',
+\setlength\belowdisplayskip{0pt}
 \]
-где на коэффициенты $B',C'$ накладываются ограничения, которые зависят от вида кривой. 
+также на коэффициенты $B',C'$ могут быть наложены ограничения. 
 
-Также получаем:
+Отображение в экспертное описание:
 \[
-K_x\bigr(\mathbf{c}_i\bigr)=\left[x_iy_i, y_i^2, x_i, y_i, 1\right], \quad K_y\bigr(\mathbf{c}_i\bigr)=x_i^2,
+\setlength\abovedisplayskip{0pt}
+K_x\bigr(\mathbf{c}_i\bigr)=\left[x_iy_i, y_i^2, x_i, y_i, 1\right], \quad K_y\bigr(\mathbf{c}_i\bigr)=x_i^2.
+\setlength\belowdisplayskip{0pt}
 \]
-откуда получаем задачу линейной регрессии для восстановления параметров:
-\[
-B', C', D', E', F'
-\] по выборке $\mathfrak{D}$.
-\end{frame}
 
-%----------------------------------------------------------------------------------------------------------
-
-\begin{frame}[shrink=5]{Постановка задачи нахождения параметров окружностей}
-\justifying
 \begin{columns}
-\column{0.6\textwidth}
-Задано бинарное изображение:
-\begin{equation*}
-\begin{aligned}
-\textbf{M} \in \{0,1\}^{m_1 \times m_2},
-\end{aligned}
-\end{equation*}
-где $1$ --- черная точка, $0$ --- белая точка фона.
-
-По изображению $\textbf{M}$ строится выборка $\textbf{C}$:
-\begin{equation*}
-\begin{aligned}
-\textbf{C} \in  \mathbb{R}^{N \times 2},
-\end{aligned}
-\end{equation*}
-где $N$ --- число черных точек на изображении $\textbf{M}$.
-\column{0.36\textwidth}
-\begin{center}
-	\includegraphics[height=0.4\textheight]{figures/slides_statment}
-\end{center}
-\end{columns}
-
+\column{0.64\textwidth}
+\textbf{Частный случай: аппроксимации окружности}
 
 Пусть $x_0, y_0$~--- центр окружности, которую требуется найти, а $r$ ее радиус.
 
-Точки~$\left(x_i, y_i\right)\in\textbf{C}$ должны удовлетворять уравнению окружности:
-\begin{equation*}
+Точки~$\left(x_i, y_i\right)\in\textbf{C}$ удовлетворяют уравнению окружности:
+\[
+\setlength\abovedisplayskip{0pt}
 \begin{aligned}
-\left(x_i - x_0\right)^{2}+\left(y_i-y_0\right)^2 = r^2 \Rightarrow (2x_0)\cdot x_i + (2y_0)\cdot y_i+(r^2-x_0^2-y_0^2)\cdot1 = x_{i}^2 + y_{i}^2.
+\left(x_i - x_0\right)^{2}+\left(y_i-y_0\right)^2 = r^2 \Rightarrow\\
+\Rightarrow(2x_0)\cdot x_i + (2y_0)\cdot y_i+(r^2-x_0^2-y_0^2)\cdot1 = x_{i}^2 + y_{i}^2.
 \end{aligned}
-\end{equation*}
-Задачу линейной регрессии для нахождения окружности:
-\begin{equation*}
+\setlength\belowdisplayskip{0pt}
+\]
+\column{0.36\textwidth}
+\begin{center}
+	\includegraphics[height=0.37\textheight]{figures/slides_statment}
+\end{center}
+\end{columns}
+
+Линейная регрессия для аппроксимации окружности:
+\[
+\setlength\abovedisplayskip{0pt}
 \begin{aligned}
 \textbf{X}\textbf{w} \approx \textbf{y},  \quad \textbf{X} = \left[\textbf{C}, \textbf{1}\right], \quad \textbf{y} = [x_1^2+y_1^2, x_2^2+y_2^2, \cdots, x_N^2+y_N^2]^{\mathsf{T}},
 \end{aligned}
-\end{equation*}
-где найденые оптимальные параметры линейной регрессии $\textbf{w} = \bigr[w_1, w_2, w_3\bigr]^{\mathsf{T}}$ восстанавливают параметры окружности:
-\begin{equation*}
+\setlength\belowdisplayskip{0pt}
+\]
+где оптимальные параметры $\textbf{w} = \bigr[w_1, w_2, w_3\bigr]^{\mathsf{T}}$ восстанавливают окружность:
+\[
+\setlength\abovedisplayskip{0pt}
 \begin{aligned}
 x_0 = \frac{w_1}{2}, \quad y_0 = \frac{w_2}{2}, \quad r = \sqrt[]{w_3+x_{0}^{2}+y_{0}^{2}}.
 \end{aligned}
-\end{equation*}
+\setlength\belowdisplayskip{0pt}
+\]
+
 
 \end{frame}
 
@@ -212,13 +198,13 @@ x_0 = \frac{w_1}{2}, \quad y_0 = \frac{w_2}{2}, \quad r = \sqrt[]{w_3+x_{0}^{2}+
 \justifying
 Заданы $K$ кривых второго порядка $\Omega_1, \cdots, \Omega_K$ с $E_k = E\bigr(\Omega_k\bigr)$.
 
-\begin{definition}
+\begin{rusdefinition}
 Функция $f$ называется смесью K экспертов, если:
 \[
 	f = \sum\limits_{k = 1}^{K}\pi_k(\mathbf{x}, \mathbf{V})g_k(\mathbf{w}_k),  \quad \pi_k(\mathbf{x}, \mathbf{V}): \mathbb{R}^{n\times |\mathbf{V}|} \rightarrow [0, \, 1], \quad \sum\limits_{k = 1}^{K}\pi_k(\mathbf{x}, \mathbf{V}) = 1, 
 \]
 где $g_k$~---~локальная модель, $\mathbf{x}$~---~признаки, $\pi_k$~---~шлюзовая функция, $\mathbf{w}_k$~---~параметры, $\mathbf{V}$~---~параметры шлюзовой функции.
-\end{definition}
+\end{rusdefinition}
 
 Мультимодель, описывающую кривые $\Omega_1, \dots, \Omega_K$ на изображении $\mathbf{M}$:
 \[
@@ -226,7 +212,7 @@ x_0 = \frac{w_1}{2}, \quad y_0 = \frac{w_2}{2}, \quad r = \sqrt[]{w_3+x_{0}^{2}+
 	f = \sum\limits_{\mathbf{c} \in \mathbf{C}} \sum_{k = 1}^{K} \pi_k(\mathbf{c}, \mathbf{V})g_k(K^k_{x}\bigl(\mathbf{c}), \mathbf{w}_k), \quad \mathbf{x}=K^1_{x}\bigl(\mathbf{c})=\cdots=K^K_{x}\bigl(\mathbf{c}).
 \setlength\belowdisplayskip{0pt}
 \]
-Решается задача оптимизации:
+Требуется решить оптимизационную задачу:
 \[
 \setlength\abovedisplayskip{0pt}
 \mathcal{L} = \sum\limits_{(\mathbf{x}, y) \in \mathfrak{D}} \sum\limits_{k = 1}^{K} \pi_k(\mathbf{x}, \mathbf{V})(y - \mathbf{w}_k^{\mathsf{T}}\mathbf{x})^2 + R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr) \rightarrow \min_{\mathbf{V}, \mathbf{W}},
@@ -238,10 +224,10 @@ x_0 = \frac{w_1}{2}, \quad y_0 = \frac{w_2}{2}, \quad r = \sqrt[]{w_3+x_{0}^{2}+
 
 %----------------------------------------------------------------------------------------------------------
 
-\begin{frame}{Вероятностная задача}
+\begin{frame}{Вероятностная постановка задачи}
 \justifying
 
-Рассматривается вероятностная постановка задачи:
+Заданы:
 \begin{enumerate}
 	\item[1)] правдоподобие выборки $p_{k}\left(y_{i}|\mathbf{w}_{k}, \mathbf{x}_{i}\right) = \mathcal{N}\left(y_{i}|\mathbf{w}_{k}^{\mathsf{T}}\mathbf{x}_{i}, \beta^{-1}\right),$ где $\beta$ уровень шума,
 	\item[2)] априорное распределение параметров $p^{k}\left(\mathbf{w}_{k}\right) = \mathcal{N}\left(\mathbf{w}_{k}|\mathbf{w}^{0}_{k}, \mathbf{A}_{k}\right),$ где $\mathbf{w}^{0}_{k}$~---~вектор размера $n\times1,$ $\mathbf{A}_{k}$~---~ковариационная матрица параметров,
@@ -261,13 +247,13 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 
 %----------------------------------------------------------------------------------------------------------
 
-\begin{frame}{ЕМ--алгоритм решения задачи}
+\begin{frame}{Оптимизационная задача}
 \justifying
 
 Введем скрытые переменные $\textbf{Z} = [z_{ik}],$ где $~z_{ik} = 1$ тогда и только тогда, когда $k_i=k$:
 \[
 \begin{aligned}
-\log p\bigr(\mathbf{y}, \mathbf{Z}, \mathbf{W}&|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0},  \bm{\Xi}, \beta\bigr) =\\
+\log p\bigr(\mathbf{y}, &\mathbf{Z}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0},  \bm{\Xi}, \beta\bigr) =\\
 &= \sum_{i=1}^{N}\sum_{k=1}^{K}z_{ik}\left[\log\pi_k\left(\textbf{x}_i, \textbf{V}\right) - \frac{\beta}{2}\left(y_{i} - \textbf{w}_{k}^{\mathsf{T}}\textbf{x}_{i}\right)^{2} + \frac{1}{2}\log\frac{\beta}{2\pi}\right] +\\
 &+ \sum_{k=1}^{K}\left[-\frac{1}{2}\left(\textbf{w}_{k} - \textbf{w}_{k}^{0}\right)^{\mathsf{T}}\textbf{A}_{k}^{-1}\left(\textbf{w}_{k} - \textbf{w}_{k}^{0}\right) + \frac{1}{2}\log\det\textbf{A}^{-1}_{k} - \frac{n}{2}\log2\pi\right]+\\
 &+ \sum_{k=1}^{K}\sum_{k'=1}^{K}\left[-\frac{1}{2}\left(\textbf{w}_{k}^{0}-\textbf{w}_{k'}^{0}\right)^{\mathsf{T}}\hat{\bm{\alpha}}^{-1}\left(\textbf{w}_{k}^{0}-\textbf{w}_{k'}^{0}\right) +\frac{1}{2}\log\det \bm{\Xi} -\frac{n}{2}\log{2\pi}\right].
@@ -275,11 +261,11 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 \]
 
 Задача оптимизации параметров локальных моделей и параметров смеси принимает следующий вид:
-\begin{equation*}
+\[
 \begin{aligned}
 \mathbf{W}, \mathbf{Z}, \mathbf{V}, \mathbf{W}^0, \textbf{A},  \beta = \arg\max_{\mathbf{W}, \mathbf{Z}, \mathbf{V}, \mathbf{W}^0, \textbf{A}, \beta} \log p\bigr(\mathbf{y}, \mathbf{Z}, \mathbf{W}&|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}, \bm{\Xi}, \beta\bigr).
 \end{aligned}
-\end{equation*}
+\]
 
 Для оптимизации используется вариационный ЕМ--алгоритм с предположением~$q\left(\textbf{Z}, \textbf{W}\right) = q\left(\textbf{Z}\right)q\left(\textbf{W}\right)$.
 \end{frame}
@@ -315,18 +301,34 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 \begin{frame}{Вычислительный эксперимент}
 \justifying
 \textbf{Эксперимент с окружностями:}
+\begin{enumerate}
+\item Синтетическое изображение трех непересекающих окружностей с шумом.
+\item Сравнивается модели: с заданием априорного распределения и без него.
+\end{enumerate}
 
-Информация
-
-~\\
 \textbf{Эксперимент с разным уровнем шума в данных:}
 
-Информация
+\begin{enumerate}
+\item Синтетическое изображение двух парабол.
+\item Анализ качества аппроксимации~$S$ от уровня шума~$\beta$ в данных и от параметра априорных распределений~$\gamma$. Качество аппроксимации следующее:
+\[
+\setlength\abovedisplayskip{0pt}
+S = ||\mathbf{w}^\text{pred}_{1} - \mathbf{w}^\text{true}_{1}||^{2}_{2} + ||\mathbf{w}^\text{pred}_{2} - \mathbf{w}^\text{true}_{2}||^{2}_{2}.
+\setlength\belowdisplayskip{0pt}
+\]
+\end{enumerate}
 
-~\\
 \textbf{Аппроксимация радужки глаза}
+\begin{enumerate}
+	\item Реальные изображения радужки глаза с предобработкой для их бинаризации. 
+	\item Сравниваются различные регуляризаторы:
+	\begin{itemize}
+		\item $R_0\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)=0$;
+		\item $R_1\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)= -\sum_{k=1}^{K}\mathbf{w}_k^{\mathsf{T}}\mathbf{w}_k$;
+		\item $R_2\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)= -\sum_{k=1}^{K}\mathbf{w}_k^{\mathsf{T}}\mathbf{w}_k + \sum_{k=1}^{K}\sum_{k'=1}^{K}\sum_{j=1}^2\left(w_k^j-w_{k'}^j\right)^2$.
+	\end{itemize}
+\end{enumerate}
 
-Информация
 
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -335,34 +337,36 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 \justifying
 
 \begin{figure}[h!]
-\begin{minipage}{.32\textwidth}
-      \includegraphics[width =  \textwidth]{figures/910.eps}
+\begin{minipage}{.25\textwidth}
+      \includegraphics[width =  1.0\textwidth]{figures/910.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
+\begin{minipage}{.25\textwidth}
 \hspace{0.3mm}
-      \includegraphics[width =  0.89\textwidth]{figures/901.eps}
+      \includegraphics[width =  0.9\textwidth]{figures/901.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\vspace{-3mm}
-\hspace{-8.5mm}
+\begin{minipage}{.25\textwidth}
+\vspace{-2.mm}
+\hspace{-4.5mm}
       \includegraphics[width =  1.07\textwidth]{figures/902.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-      \includegraphics[width =  \textwidth]{figures/900.eps}
+\begin{minipage}{.25\textwidth}
+      \includegraphics[width =  1.0\textwidth]{figures/900.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{2mm}
+\begin{minipage}{.25\textwidth}
+\hspace{0.3mm}
       \includegraphics[width =  0.9\textwidth]{figures/911.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{-2.3mm}
-      \includegraphics[width =  0.935\textwidth]{figures/912.eps}
+\begin{minipage}{.25\textwidth}
+\hspace{-3.3mm}
+      \includegraphics[width =  0.95\textwidth]{figures/912.eps}
 \end{minipage}
-\caption{Мультимодель в зависимости от разных априорных предположений и уровня шума. Сверху вниз: построение с заданием априорного распределения; без задания априорного распределения. Слева на право: окружности без шума; шум в радиусе окружности; шум в радиусе окружности а также произвольные точки по всему изображению.}
-\label{ce:fig3}
 \end{figure}
 
-
+\begin{enumerate}
+\item Сверху вниз: с заданием априорного распределения; без задания априорного распределения.
+\item Слева на право: без шума; шум в радиусе; шум в радиусе окружности и произвольные точки по всему изображению.
+\end{enumerate}
+При добавлении шума на изображение, качество аппроксимации значительно ухудшается.
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 
@@ -370,35 +374,39 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 \justifying
 
 \begin{figure}[h]
-\begin{minipage}{.32\textwidth}
-\hspace{-3mm}
-      \includegraphics[width = 1.05\textwidth]{figures/910noise.eps}
+\begin{minipage}{.27\textwidth}
+%\hspace{-3mm}
+      \includegraphics[width = 1.0\textwidth]{figures/910noise.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\vspace{2pt}
-\hspace{-2.1mm}
-      \includegraphics[width = 0.95\textwidth]{figures/911noise.eps}
+\begin{minipage}{.27\textwidth}
+\vspace{0.3mm}
+\hspace{1.0mm}
+      \includegraphics[width = 0.91\textwidth]{figures/911noise.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\vspace{2pt}
-\hspace{-6.3mm}
-      \includegraphics[width = 0.95\textwidth]{figures/912noise.eps}
+\begin{minipage}{.27\textwidth}
+\vspace{0.3mm}
+      \includegraphics[width = 0.91\textwidth]{figures/912noise.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{-3mm}
-      \includegraphics[width = 1.05\textwidth]{figures/900noise.eps}
+\begin{minipage}{.27\textwidth}
+%\hspace{-3mm}
+      \includegraphics[width = 1.0\textwidth]{figures/900noise.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{-2.1mm}
-      \includegraphics[width = \textwidth]{figures/901noise.eps}
+\begin{minipage}{.27\textwidth}
+\hspace{-0.4mm}
+      \includegraphics[width = 0.95\textwidth]{figures/901noise.eps}
 \end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{-2mm}
-      \includegraphics[width = 0.95\textwidth]{figures/902noise.eps}
+\begin{minipage}{.27\textwidth}
+%\hspace{-2mm}
+      \includegraphics[width = 0.9\textwidth]{figures/902noise.eps}
 \end{minipage}
-\caption{Зависимость параметров $r$, $x_0$ и $y_0$ от номера итерации при разных априорных распределениях. Сверху вниз: построение с заданием априорного распределения; без задания априорного распределения. Слева на право: окружности без шума; шум в радиусе окружности; шум в радиусе окружности а также произвольные точки по всему изображению.}
-\label{ce:fig4}
 \end{figure}
+
+\begin{enumerate}
+\item Сверху вниз: с заданием априорного распределения; без задания априорного распределения.
+\item Слева на право: без шума; шум в радиусе; шум в радиусе окружности и произвольные точки по всему изображению.
+\end{enumerate}
+
+Модель с заданием априорного распределения является более устойчивой, чем аналогичная без него.
 
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -408,9 +416,9 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 
 \begin{figure}[h!t]\center
 \includegraphics[width=0.6\textwidth]{figures/beta_gamma}
-\caption{Результат аппроксимации для данных с разным уровнем шума~$\beta$ и от дисперсии априорного распределения~$\gamma$}
-\label{ce:fig6}
 \end{figure}
+
+При малом шуме качество аппроксимации не зависит от параметра~$\gamma$, при увеличении уровня шума, качество аппроксимации зависит от параметра~$\gamma$.
 
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -420,9 +428,9 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 
 \begin{figure}[h!t]\center
 \includegraphics[width=0.8\textwidth]{figures/3dplot}
-\caption{Результат аппроксимации для данных с разным уровнем шума~$\beta$ и от дисперсии априорного распределения~$\gamma$}
-\label{ce:fig6}
 \end{figure}
+
+При увеличении шума~$\beta$  в данных ошибка аппроксимации~$S$ увеличивается. Параметр~$\gamma$ не сильно влияет при фиксированном параметре~$\beta$.
 
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
@@ -447,10 +455,29 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
          \includegraphics[width=\textwidth]{figures/prior_regular_real_example}
          \caption{}
      \end{subfigure}
-     \caption{Визуализация аппроксимации радужки глаза: a) в случае, если задан регуляризатор $R_0$; b) в случае, если задан регуляризатор $R_1$; b) в случае, если задан регуляризатор $R_2$.}
-    \label{ce:fig6}
 \end{figure}
 
+Аппроксимация радужки глаза: a) в случае, если задан регуляризатор $R_0$; b) в случае, если задан регуляризатор $R_1$; b) в случае, если задан регуляризатор $R_2$.
+
+При увеличении сложности регуляризатора с $R_0$ до $R_2$ качество аппроксимации улучшается.
+
+\end{frame}
+%----------------------------------------------------------------------------------------------------------
+
+\begin{frame}{Визуализация сходимости}
+\justifying
+Регуляризация априорных распределений
+\begin{center}
+	\includegraphics[width=0.85\textwidth]{figures/experiment_real_regular}
+\end{center}
+С заданием априорного распределения на модели
+\begin{center}
+	\includegraphics[width=0.85\textwidth]{figures/experiment_real_prior}
+\end{center}
+Без задания априорного распределения
+\begin{center}
+	\includegraphics[width=0.85\textwidth]{figures/experiment_real_not_prior}
+\end{center}
 \end{frame}
 %----------------------------------------------------------------------------------------------------------
 
@@ -461,12 +488,17 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 		\item Поставлена задача обучения с экспертной информацией.
 		\item Предложен метод решения задачи обучения с экспертной информацией.
 		\item Приведен частный случай обучения с экспертной информацией для решения задачи поиска кривых второго порядка.
+		\item Введено понятие регуляризации априорных распределений для улучшения качества мультимодели.
 		\item Проведен вычислительный эксперимент для анализа предложенной модели.
 	\end{enumerate}
+
+~\\
 
 Планируется:
 	\begin{enumerate}
 	\justifying
+		\item Улучшить мультимодель при помощи задания априорного распределения на шлюзовую функцию.
+		\item Рассмотреть в качестве локальных моделей не только модели, которые описывают данные, а также модель, которая отвечает за шум в данных.
 		\item Провести адаптация предложенного метода для методов глубокого обучения.
 	\end{enumerate}	
 
@@ -476,13 +508,13 @@ p\bigr(\mathbf{y}, \mathbf{W}|\mathbf{X}, \mathbf{V}, \textbf{A}, \textbf{W}^{0}
 \begin{frame}{Публикации ВАК по теме}
 \justifying
 \begin{enumerate}
-\item \textit{Грабовой А.В., Бахтеев О.Ю., Стрижов В.В.} Определение релевантности параметров нейросети // Информатика и ее применения, 2019, 13(2).
-\item \textit{Грабовой А.В., Бахтеев О. Ю., Стрижов В.В.} Введение отношения порядка на множестве параметров аппроксимирующих моделей // Информатика и ее применения, 2020, 14(2).
-\item \textit{A. Grabovoy, V. Strijov.} Quasi-periodic time series clustering for human. Lobachevskii Journal of Mathematics, 2020, 41(3).
-\item \textit{Грабовой А.В., Стрижов В.В.} Анализ выбора априорного распределения для смеси экспертов // Журнал Вычислительной математики и математической физики, 2021. 61(5).
-\item \textit{Грабовой А.В., Стрижов В.В.} Анализ моделей привилегированного обучения и дистилляции // Автоматика и телемеханика, 2021 (текущая работа, на рецензировании).
-\item \textit{T. Gadaev, A. Grabovoy, A. Motrenko, V. Strijov} Numerical methods of minimum sufficient sample size estimation for linear models // in progress.
-\item \textit{Базарова А.И., Грабовой А.В., Стрижов В.В.} Анализ свойств вероятностных моделей в задачах обучения с экспертом // подано.
+\item \textit{Грабовой\;А.\,В., Бахтеев\;О.\,Ю., Стрижов\;В.\,В.} Определение релевантности параметров нейросети // Информатика и ее применения, 2019, 13(2).
+\item \textit{Грабовой\;А.\,В., Бахтеев\;О.\,Ю., Стрижов\;В.\,В.} Введение отношения порядка на множестве параметров аппроксимирующих моделей // Информатика и ее применения, 2020, 14(2).
+\item \textit{A.\;Grabovoy, V.\;Strijov.} Quasi-periodic time series clustering for human. Lobachevskii Journal of Mathematics, 2020, 41(3).
+\item \textit{Грабовой\;А.\,В., Стрижов\;В.\,В.} Анализ выбора априорного распределения для смеси экспертов // Журнал Вычислительной математики и математической физики, 2021. 61(5).
+\item \textit{Грабовой\;А.\,В., Стрижов\;В.\,В.} Анализ моделей привилегированного обучения и дистилляции // Автоматика и телемеханика, 2021 (текущая работа, на рецензировании).
+\item \textit{T.\;Gadaev, A.\;Grabovoy, A.\;Motrenko, V.\;Strijov} Numerical methods of minimum sufficient sample size estimation for linear models // in progress.
+\item \textit{Базарова\;А.\,И., Грабовой\;А.\,В., Стрижов\;В.\,В.} Анализ свойств вероятностных моделей в задачах обучения с экспертом // подано.
 \end{enumerate}
 
 \end{frame}
