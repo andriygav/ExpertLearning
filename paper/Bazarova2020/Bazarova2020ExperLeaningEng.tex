@@ -39,8 +39,8 @@
 
 \begin{center}
 \bf
+A.\,V.~Grabovoy\footnote{Moscow Institute of Physics and Technology, grabovoy.av@phystech.edu}, 
 A.\,I. Bazarova\footnote{Moscow Institute of Physics and Technology, bazarova.ai@phystech.edu}, 
-A.\,V.~Graboviy\footnote{Moscow Institute of Physics and Technology, grabovoy.av@phystech.edu}, 
 V.\,V.~Strijov\footnote{Moscow Institute of Physics and Technology, strijov@phystech.edu}
 
 \end{center}
@@ -246,47 +246,21 @@ A computational experiment was carried out to analyze the quality of models of s
 \subsection{ Experiment with circumstances }
 \begin{figure}[h!]
 \begin{minipage}{.32\textwidth}
-      \includegraphics[width =  \textwidth]{figures/910.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{0.3mm}
-      \includegraphics[width =  0.89\textwidth]{figures/901.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\vspace{-3mm}
-\hspace{-8.5mm}
-      \includegraphics[width =  1.07\textwidth]{figures/902.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
       \includegraphics[width =  \textwidth]{figures/900.eps}
 \end{minipage}
 \begin{minipage}{.32\textwidth}
 \hspace{2mm}
-      \includegraphics[width =  0.9\textwidth]{figures/911.eps}
+      \includegraphics[width =  0.9\textwidth]{figures/901.eps}
 \end{minipage}
 \begin{minipage}{.32\textwidth}
 \hspace{-2.3mm}
-      \includegraphics[width =  0.935\textwidth]{figures/912.eps}
+      \includegraphics[width =  0.935\textwidth]{figures/902.eps}
 \end{minipage}
-\caption{Multi-model depending on different prior assumptions and noise level. From top to bottom: plotting with a priori distribution; without specifying the prior distribution. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
+\caption{Multi-model depending on different prior assumptions and noise level. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig3}
 \end{figure}
 
 \begin{figure}[h]
-\begin{minipage}{.32\textwidth}
-\hspace{-3mm}
-      \includegraphics[width = 1.05\textwidth]{figures/910noise.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\vspace{2pt}
-\hspace{-2.1mm}
-      \includegraphics[width = 0.95\textwidth]{figures/911noise.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\vspace{2pt}
-\hspace{-6.3mm}
-      \includegraphics[width = 0.95\textwidth]{figures/912noise.eps}
-\end{minipage}
 \begin{minipage}{.32\textwidth}
 \hspace{-3mm}
       \includegraphics[width = 1.05\textwidth]{figures/900noise.eps}
@@ -299,18 +273,14 @@ A computational experiment was carried out to analyze the quality of models of s
 \hspace{-2mm}
       \includegraphics[width = 0.95\textwidth]{figures/902noise.eps}
 \end{minipage}
-\caption{Dependence of the parameters  $r$, $x_0$ and $y_0$ on the iteration number for different prior distributions. From top to bottom: plotting with a priori distribution; without specifying the prior distribution. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
+\caption{Dependence of the parameters  $r$, $x_0$ and $y_0$ on the iteration number for different prior distributions. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig4}
 \end{figure}
 
-In this part of the experiment, an example of training a multi-model is shown to approximate several second-order figures simultaneously. A synthetic sample is used as data, which is obtained by generating three arbitrary non-intersecting circumferences, as well as adding noise to these circumferences. Noise was added to the radius of the circle for each point, and random points were added to the sample that do not belong to circumstances. The experiment compares two models: in the first model, the regularizer~$R\bigl(\mathbf {V}, \mathbf {W}, E(\Omega)\bigr) = 0,$ that is, the model without specifying the regularizer, in the second model regularizer:
-\[
-R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)= -\sum_{k=1}^{K}\gamma\left(\mathbf{w}_k - \mathbf{w}_k^{0}\right)^{\mathsf{T}}\left(\mathbf{w}_k - \mathbf{w}_k^{0}\right),
-\]
-where~$\mathbf{w}_k^{0}$ a priori assumptions about the vector of parameters.
+In this part of the experiment, an example of training a multi-model is shown to approximate several second-order figures simultaneously. A synthetic sample is used as data, which is obtained by generating three arbitrary non-intersecting circumferences, as well as adding noise to these circumferences. Noise was added to the radius of the circle for each point, and random points were added to the sample that do not belong to circumstances.
 
 Figure~\ref{ce:fig3} shows the result of building an ensemble of locally approximating models that approximate the sample. Each local model approximates one circumference, and when adding different noise, the quality of the approximation will drop.
-Figure~\ref{ce:fig4} shows a graph of the dependence of the radius of the circumferences $r$ and their centers $(x_0, y_0)$ on the iteration number. It can be seen that a model with a priori distribution converges faster than a model without a priori distribution.
+Figure~\ref{ce:fig4} shows a graph of the dependence of the radius of the circumferences $r$ and their centers $(x_0, y_0)$ on the iteration number. 
 
 \subsection{ Experiment with different noise levels and variance of the prior distribution }
 \begin{figure}[h!t]\center
