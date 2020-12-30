@@ -115,21 +115,16 @@ As an applied problem, the problem of approximating the iris of the eye on a con
 
 \section{Introduction}
 \label{intro}
-Interpretable model building in machine learning~\cite{Ribeiro2016} is one of the key challenges.
-Modern solutions of the image classification problem based on deep learning networks ResNet, VGG, Intercept~\cite{Kaiming2015} are poorly interpreted models.
-The papers~\cite{Han2020} \cite{Akhtar2018} show that deep learning networks are sensitive even to small noise in the data, which is due to their uninterpretability.
+Interpretable model building in machine learning~(Ribeiro et al. 2016) is one of the key challenges.
+Modern solutions of the image classification problem based on deep learning networks ResNet, VGG, Intercept~(Kaiming et al. 2016) are poorly interpreted models.
+The papers~(Han et al. 2020; Akhtar et al. 2018) show that deep learning networks are sensitive even to small noise in the data, which is due to their uninterpretability.
 
 In this paper, we propose a \textit {training with an expert} method.
 This method assumes the use of subject knowledge of experts to improve the quality of approximation, as well as to obtain interpretable machine learning models.
 The subject knowledge of experts about the sample will be called~\textit {expert information}.
 It is assumed that the use of expert information allows the sample to be approximated by simple interpretable models, such as linear models. Machine learning methods that take expert knowledge into account when building models are called~\textit {expert learning}.
 
-This paper solves the problem of approximating second-order curves on a contour image. Second-order curves are selected for analysis, since they are easily described by linear models. In this case, these figures need to be restored in such applied problems as the problem of recognizing the iris of the eye~\cite{Matveev2010} \cite{Matveev2014} \cite{Bowyer2010}, the problem of describing the particle track in the hadron collider~\cite{Dalila2018}. Expert information about a second-order curve allows you to map points on a plane into a new feature description, where each curve is approximated by one linear model. A model that approximates one curve is called a \textit {local model}. To approximate the entire contour image, it is required to approximate several second-order curves using several local models. In this paper, the following restrictions on images are introduced:
-\begin{enumerate}
-	\item the image consists only of second-order curves;
-	\item the image is approximated by a small number of second-order curves;
-	\item the number and type of curves in the image is known.
-\end{enumerate}
+This paper solves the problem of approximating second-order curves on a contour image. Second-order curves are selected for analysis, since they are easily described by linear models. In this case, these figures need to be restored in such applied problems as the problem of recognizing the iris of the eye~(Matveev 2010; Matveev et al. 2014; Bowyer et al. 2010), the problem of describing the particle track in the hadron collider~(Salamani et al. 2018). Expert information about a second-order curve allows you to map points on a plane into a new feature description, where each curve is approximated by one linear model. A model that approximates one curve is called a \textit {local model}. To approximate the entire contour image, it is required to approximate several second-order curves using several local models. In this paper, the following restrictions on images are introduced: a) the image consists only of second-order curves; b) the image is approximated by a small number of second-order curves; c) the number and type of curves in the image is known.
 
 \begin{figure}[h!]
      \includegraphics[width=\textwidth]{figures/explanation}
@@ -139,7 +134,7 @@ This paper solves the problem of approximating second-order curves on a contour 
 
 Figure~\ref{intro:fig2} shows an example of second-order curves, as well as expert information on curves. Figure~\ref{intro:fig2} a shows the expert information of the first expert. Using this information, the first curve is fitted with a linear model and the second curve is noise. Figure~\ref{intro:fig2} b shows the expert information of the second expert. Using this information, the second curve is fitted with a linear model and the first curve is noise.
 
-When approximating several curves on one contour image, a multi-model is built. An example of multi-models is a random forest~\cite{Ishwaran2012}, tree boosting~\cite{Tianqi2016}, a mixture of experts~\cite{Yuksel2012}. In this paper, a mixture of experts is considered as a multi-model. Expert mixture is a multi-model that linearly weights local models that approximate a portion of the sample. The values of the weighting coefficients depend on the object for which the prediction is made. To solve the problem of a mixture of experts, a variational EM-algorithm~\cite{Dempster1977} \cite{bishop2006} \cite{Peng1996} is used. The mixture of experts has many uses in a number of applications. In the paper~\cite{Estabrooks2001}, the text classification problem is solved. In the paper~\cite{Cheung1995} \cite{Weigend2000} \cite{Cao2003} \cite{Mossavat2010} \cite{Sminchisescu2007} \cite{Tuerk2001} \cite{Yumlu2003}, a mixture of experts is used to predict time series for speech recognition, daily human activity, and prediction of the value of securities. In the paper~\cite{Ebrahimpour2009}, a mixture of experts was considered to solve the problem of recognizing handwritten numbers in images.
+When approximating several curves on one contour image, a multi-model is built. An example of multi-models is a random forest~(Chen et al. 2012), tree boosting~(Chen et al. 2016), a mixture of experts~(Yuksel et al. 2012). In this paper, a mixture of experts is considered as a multi-model. Expert mixture is a multi-model that linearly weights local models that approximate a portion of the sample. The values of the weighting coefficients depend on the object for which the prediction is made. To solve the problem of a mixture of experts, a variational EM-algorithm~(Dempster et al. 1997; Bishop 2010; Peng et al. 1996) is used. The mixture of experts has many uses in a number of applications. In the paper~(Estabrooks et al. 2001), the text classification problem is solved. In the papers~(Cheung et al. 1995; Weigend et al. 2000; Cao 2003; Mossavat et al. 2010; Sminchisescu C et al. 2007; Tuerk 2001; Yumlu et al. 2003), a mixture of experts is used to predict time series for speech recognition, daily human activity, and prediction of the value of securities. In the paper~(Ebrahimpour et al. 2009), a mixture of experts was considered to solve the problem of recognizing handwritten numbers in images.
 
 As an example, the problem of approximation of the iris image is considered. Figure~\ref{intro:fig1:real} shows an example of the image that needs to be approximated. In this paper, we consider a processed image, which is given in outline form, an example of such an image is shown in Figure~\ref{intro:fig1:outer}. Figure~\ref{intro:fig1:outer} shows two local circle models that approximate the iris of the eye. Circumferences are a simple example of a second order curve.
 
@@ -410,8 +405,17 @@ A computational experiment was carried out to approximate the iris of the eye us
 % and use \bibitem to create references. Consult the Instructions
 % for authors for reference list style.
 %
-\bibitem{Ribeiro2016}
-Ribeiro M, Singh S, Guestrin C (2016) Why Should I Trust You?": Explaining the Predictions of Any Classifier. KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 1135--1144
+\bibitem{Akhtar2018}
+Akhtar N, Mian A (2018) Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey. IEEE Access 6:14410--14430
+
+\bibitem{bishop2006}
+Bishop C. (2010) Pattern Recognition and Machine Learning. Springer, Berlin 
+
+\bibitem{Bowyer2010}
+Bowyer K, Hollingsworth K, Flynn P (2010) A Survey of Iris Biometrics Research: 2008-2010. Handbook of iris recognition 15--54
+
+\bibitem{Cao2003}
+Cao L (2003) Support vector machines experts for time series forecasting. Neurocomputing 51:321--339
 
 \bibitem{Tianqi2016}
 Chen T, Guestrin C (2016) XGBoost: A Scalable Tree Boosting System. KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 785--794
@@ -419,35 +423,23 @@ Chen T, Guestrin C (2016) XGBoost: A Scalable Tree Boosting System. KDD ’16 Pr
 \bibitem{Ishwaran2012}
 Chen Xi, Ishwaran H (2012) Random Forests for Genomic Data Analysis. Genomics 6:323--329
 
-\bibitem{Yuksel2012}
-Yuksel S, Wilson J, Gader P (2012) Twenty Years of Mixture of Experts. IEEE Transactions on Neural Networks and Learning Systems 8:1177--1193
-
-\bibitem{Cao2003}
-Cao L (2003) Support vector machines experts for time series forecasting. Neurocomputing 51:321--339
+\bibitem{Cheung1995}
+Cheung Y, Leung W, Xu L (1995) Application of mixture of experts model to financial time series forecasting. In Proc. Int. Conf. Neural Netw. Signal Process. 1--4
 
 \bibitem{Dempster1977}
 Dempster A, Laird N, Rubin D (1997) Maximum Likelihood from Incomplete Data via the EM Algorithm. Journal of the Royal Statistical Society. Series B (Methodological) 39:1--38
 
-\bibitem{Yumlu2003}
-Yumlu M, Gurgen F,  Okay N (2003) Financial time series prediction using mixture of experts. In Proc. 18th Int. Symp. Comput. Inf. Sci. 553--560
-
-\bibitem{Cheung1995}
-Cheung Y, Leung W, Xu L (1995) Application of mixture of experts model to financial time series forecasting. In Proc. Int. Conf. Neural Netw. Signal Process. 1--4
-
-\bibitem{Weigend2000}
-Weigend A, Shi S (2000) Predicting daily probability distributions of S\&P500 returns. J. Forecast 19:375--392
+\bibitem{Estabrooks2001}
+Estabrooks A, Japkowicz N (2001) A mixture-of-experts framework for text classification. In Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist. 1--8
 
 \bibitem{Ebrahimpour2009}
-Estabrooks A, Japkowicz N (2009) Recognition of Persian handwritten digits using characterization loci and mixture of experts. J. Digital Content Technol. Appl. 42--46
+Ebrahimpour R, Moradian R, Esmkhani A, Jafarlou F (2009) Recognition of Persian handwritten digits using characterization loci and mixture of experts. J. Digital Content Technol. Appl. 42--46
 
-\bibitem{Estabrooks2001}
-Ebrahimpour R, M. Moradian R, Esmkhani A, Jafarlou F (2009) A mixture-of-experts framework for text classification. In Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist. 1--8
+\bibitem{Han2020}
+Han X, Yao M, Debayan D, Hui L, Ji-Liang T, Anil J (2020) Adversarial Attacks and Defenses in Images, Graphs and Text: A Review. International Journal of Automation and Computing 17:151--178
 
-\bibitem{Mossavat2010}
-Mossavat S, Amft O, Vries B, Petkov P, Kleijn W (2010) A Bayesian hierarchical mixture of experts approach to estimate speech quality. In Proc. 2nd Int. Workshop Qual. Multimedia Exper. 200--205
-
-\bibitem{Sminchisescu2007}
-Sminchisescu C, Kanaujia A, Metaxas D (2007) Discriminative density propagation for visual tracking. IEEE Trans. Pattern Anal. Mach. Intell. 29:2030--2044
+\bibitem{Kaiming2015}
+Kaiming H, Xiangyu Z, Shaoqing R, Jian S (2016) Deep Residual Learning for Image Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition 770--778
 
 \bibitem{Matveev2010}
 Matveev I (2010) Detection of iris in image by interrelated maxima of brightness gradient projections. Appl. Comput. Math 9:252--257
@@ -455,29 +447,32 @@ Matveev I (2010) Detection of iris in image by interrelated maxima of brightness
 \bibitem{Matveev2014}
 Matveev I, Simonenko I (2014) Detecting precise iris boundaries by circular shortest path method. Pattern Recognition and Image Analysis 24:304--309
 
-\bibitem{Bowyer2010}
-Bowyer K, Hollingsworth K, Flynn P (2010) A Survey of Iris Biometrics Research: 2008-2010. Handbook of iris recognition 15--54
+\bibitem{Mossavat2010}
+Mossavat S, Amft O, Vries B, Petkov P, Kleijn W (2010) A Bayesian hierarchical mixture of experts approach to estimate speech quality. In Proc. 2nd Int. Workshop Qual. Multimedia Exper. 200--205
 
 \bibitem{Peng1996}
 Peng F, Jacobs R, Tanner M (1996) Bayesian inference in mixtures-of-experts and hierarchical mixtures-of-experts models with an application to speech recognition. J. Amer. Stat. Assoc. 91:953--960
 
-\bibitem{Tuerk2001}
-Tuerk A (2001) The state based mixture of experts HMM with applications to the recognition of spontaneous speech. Ph.D. thesis, University of Cambridge.
-
-\bibitem{bishop2006}
-Bishop C. (2010) Pattern Recognition and Machine Learning. Springer, Berlin 
-
-\bibitem{Kaiming2015}
-Kaiming H, Xiangyu Z, Shaoqing R, Jian S (2016) Deep Residual Learning for Image Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition 770--778
-
-\bibitem{Han2020}
-Han X, Yao M, Debayan D, Hui L, Ji-Liang T, Anil J (2020) Adversarial Attacks and Defenses in Images, Graphs and Text: A Review. International Journal of Automation and Computing 17:151--178
-
-\bibitem{Akhtar2018}
-Akhtar N, Mian A (2018) Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey. IEEE Access 6:14410--14430
+\bibitem{Ribeiro2016}
+Ribeiro M, Singh S, Guestrin C (2016) Why Should I Trust You?": Explaining the Predictions of Any Classifier. KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 1135--1144
 
 \bibitem{Dalila2018}
 Salamani D, Gadatsch S, Golling T,  Stewart G, Ghosh A,  Rousseau D,  Hasib A,  Schaarschmidt J (2018) Deep Generative Models for Fast Shower Simulation in ATLAS. 2018 IEEE 14th International Conference on e-Science (e-Science) \text{https://doi.org/10.1109/eScience.2018.00091}
+
+\bibitem{Sminchisescu2007}
+Sminchisescu C, Kanaujia A, Metaxas D (2007) Discriminative density propagation for visual tracking. IEEE Trans. Pattern Anal. Mach. Intell. 29:2030--2044
+
+\bibitem{Tuerk2001}
+Tuerk A (2001) The state based mixture of experts HMM with applications to the recognition of spontaneous speech. Ph.D. thesis, University of Cambridge.
+
+\bibitem{Weigend2000}
+Weigend A, Shi S (2000) Predicting daily probability distributions of S\&P500 returns. J. Forecast 19:375--392
+
+\bibitem{Yuksel2012}
+Yuksel S, Wilson J, Gader P (2012) Twenty Years of Mixture of Experts. IEEE Transactions on Neural Networks and Learning Systems 8:1177--1193
+
+\bibitem{Yumlu2003}
+Yumlu M, Gurgen F,  Okay N (2003) Financial time series prediction using mixture of experts. In Proc. 18th Int. Symp. Comput. Inf. Sci. 553--560
 
 %\bibitem{RefJ}
 % Format for Journal Reference
