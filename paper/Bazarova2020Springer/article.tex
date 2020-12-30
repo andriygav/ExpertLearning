@@ -69,7 +69,7 @@ placed here. General acknowledgments should be placed at the end of the article.
 }
 \subtitle{}
 
-%\titlerunning{Short form of title}        % if too long for running head
+\titlerunning{Probabilistic models in learning with an expert}        % if too long for running head
 
 \author{Andrey V. Grabovoy        \and
             Alexandra I. Bazarova  \and
@@ -117,7 +117,7 @@ As an applied problem, the problem of approximating the iris of the eye on a con
 \label{intro}
 Interpretable model building in machine learning~\cite{Ribeiro2016} is one of the key challenges.
 Modern solutions of the image classification problem based on deep learning networks ResNet, VGG, Intercept~\cite{Kaiming2015} are poorly interpreted models.
-The papers~\cite{Han2020} \cite{Xingjun2019} \cite{Akhtar2018} show that deep learning networks are sensitive even to small noise in the data, which is due to their uninterpretability.
+The papers~\cite{Han2020} \cite{Akhtar2018} show that deep learning networks are sensitive even to small noise in the data, which is due to their uninterpretability.
 
 In this paper, we propose a \textit {training with an expert} method.
 This method assumes the use of subject knowledge of experts to improve the quality of approximation, as well as to obtain interpretable machine learning models.
@@ -411,76 +411,73 @@ A computational experiment was carried out to approximate the iris of the eye us
 % for authors for reference list style.
 %
 \bibitem{Ribeiro2016}
-Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin, Why Should I Trust You?": Explaining the Predictions of Any Classifier, Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 1135--1144 (2016)
+Ribeiro M, Singh S, Guestrin C (2016) Why Should I Trust You?": Explaining the Predictions of Any Classifier. KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 1135--1144
 
 \bibitem{Tianqi2016}
-Chen Tianqi, Guestrin Carlos, XGBoost: A Scalable Tree Boosting System, KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (2016)
+Chen T, Guestrin C (2016) XGBoost: A Scalable Tree Boosting System. KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 785--794
 
 \bibitem{Ishwaran2012}
-Chen Xi, Ishwaran Hemant, Random Forests for Genomic Data Analysis, Genomics, Vol. 6, 323--329 (2012)
+Chen Xi, Ishwaran H (2012) Random Forests for Genomic Data Analysis. Genomics 6:323--329
 
 \bibitem{Yuksel2012}
-Yuksel Seniha Esen, Wilson Joseph N., Gader Paul D, Twenty Years of Mixture of Experts, IEEE Transactions on Neural Networks and Learning Systems, Vol. 8, 1177--1193 (2012)
+Yuksel S, Wilson J, Gader P (2012) Twenty Years of Mixture of Experts. IEEE Transactions on Neural Networks and Learning Systems 8:1177--1193
 
 \bibitem{Cao2003}
-L.~Cao, Support vector machines experts for time series forecasting, Neurocomputing, Vol. 51, 321--339 (2003)
+Cao L (2003) Support vector machines experts for time series forecasting. Neurocomputing 51:321--339
 
 \bibitem{Dempster1977}
-A. P. Dempster, N. M. Laird and D. B. Rubin, Maximum Likelihood from Incomplete Data via the EM Algorithm, Journal of the Royal Statistical Society. Series B (Methodological), Vol. 39, 1--38 (1997)
+Dempster A, Laird N, Rubin D (1997) Maximum Likelihood from Incomplete Data via the EM Algorithm. Journal of the Royal Statistical Society. Series B (Methodological) 39:1--38
 
 \bibitem{Yumlu2003}
-M.\,S.~Yumlu, F.\,S.~Gurgen,  N.~Okay, Financial time series prediction using mixture of experts, In Proc. 18th Int. Symp. Comput. Inf. Sci., 553--560 (2003)
+Yumlu M, Gurgen F,  Okay N (2003) Financial time series prediction using mixture of experts. In Proc. 18th Int. Symp. Comput. Inf. Sci. 553--560
 
 \bibitem{Cheung1995}
-Y.~M.~Cheung, W.~M.~Leung, and L. Xu,  Application of mixture of experts model to financial time series forecasting, In Proc. Int. Conf. Neural Netw. Signal Process., 1--4 (1995)
+Cheung Y, Leung W, Xu L (1995) Application of mixture of experts model to financial time series forecasting. In Proc. Int. Conf. Neural Netw. Signal Process. 1--4
 
 \bibitem{Weigend2000}
-A. S. Weigend, S. Shi, Predicting daily probability distributions of S\&P500 returns, J. Forecast., Vol. 19, 375--392 (2000)
+Weigend A, Shi S (2000) Predicting daily probability distributions of S\&P500 returns. J. Forecast 19:375--392
 
 \bibitem{Ebrahimpour2009}
-A.~Estabrooks, N.~Japkowicz, Recognition of Persian handwritten digits using characterization loci and mixture of experts, J. Digital Content Technol. Appl., 42--46 (2009)
+Estabrooks A, Japkowicz N (2009) Recognition of Persian handwritten digits using characterization loci and mixture of experts. J. Digital Content Technol. Appl. 42--46
 
 \bibitem{Estabrooks2001}
-R. Ebrahimpour, M. R. Moradian, A. Esmkhani, F. M. Jafarlou, A mixture-of-experts framework for text classification, In Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist., 1--8 (2009)
+Ebrahimpour R, M. Moradian R, Esmkhani A, Jafarlou F (2009) A mixture-of-experts framework for text classification. In Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist. 1--8
 
 \bibitem{Mossavat2010}
-S. Mossavat, O. Amft, B. de Vries, P. Petkov, W. Kleijn, A Bayesian hierarchical mixture of experts approach to estimate speech quality, In Proc. 2nd Int. Workshop Qual. Multimedia Exper., 200--205 (2010)
+Mossavat S, Amft O, Vries B, Petkov P, Kleijn W (2010) A Bayesian hierarchical mixture of experts approach to estimate speech quality. In Proc. 2nd Int. Workshop Qual. Multimedia Exper. 200--205
 
 \bibitem{Sminchisescu2007}
-C. Sminchisescu, A. Kanaujia, and D. Metaxas, B M3 E: Discrimina- tive density propagation for visual tracking, IEEE Trans. Pattern Anal. Mach. Intell., Vol. 29, 2030--2044 (2007)
+Sminchisescu C, Kanaujia A, Metaxas D (2007) Discriminative density propagation for visual tracking. IEEE Trans. Pattern Anal. Mach. Intell. 29:2030--2044
 
 \bibitem{Matveev2010}
-I. Matveev, Detection of iris in image by interrelated maxima of brightness gradient projections, Appl.Comput. Math, Vol. 9, 252--257 (2010)
+Matveev I (2010) Detection of iris in image by interrelated maxima of brightness gradient projections. Appl. Comput. Math 9:252--257
 
 \bibitem{Matveev2014}
-I. Matveev, I. Simonenko, Detecting precise iris boundaries by circular shortest path method, Pattern Recognition and Image Analysis, Vol. 24, 304--309 (2014)
+Matveev I, Simonenko I (2014) Detecting precise iris boundaries by circular shortest path method. Pattern Recognition and Image Analysis 24:304--309
 
 \bibitem{Bowyer2010}
-K. Bowyer, K. Hollingsworth, P. Flynn, A Survey of Iris Biometrics Research (2010)
+Bowyer K, Hollingsworth K, Flynn P (2010) A Survey of Iris Biometrics Research: 2008-2010. Handbook of iris recognition 15--54
 
 \bibitem{Peng1996}
-F. Peng, R. A. Jacobs, M. A. Tanner, Bayesian inference in mixtures-of-experts and hierarchical mixtures-of-experts models with an application to speech recognition, J. Amer. Stat. Assoc., Vol. 91, 953--960 (1996)
+Peng F, Jacobs R, Tanner M (1996) Bayesian inference in mixtures-of-experts and hierarchical mixtures-of-experts models with an application to speech recognition. J. Amer. Stat. Assoc. 91:953--960
 
 \bibitem{Tuerk2001}
-A. Tuerk,  The state based mixture of experts HMM with applications to the recognition of spontaneous speech, Ph.D. thesis, Dept. Eng., Univ. Cambridge, Cambridge, U.K. (2001)
+Tuerk A (2001) The state based mixture of experts HMM with applications to the recognition of spontaneous speech. Ph.D. thesis, University of Cambridge.
 
 \bibitem{bishop2006}
-Bishop C., Pattern Recognition and Machine Learning, 758, Springer, Berlin (2010)
+Bishop C. (2010) Pattern Recognition and Machine Learning. Springer, Berlin 
 
 \bibitem{Kaiming2015}
-Kaiming He, Deep Residual Learning for Image Recognition (2015)
+Kaiming H, Xiangyu Z, Shaoqing R, Jian S (2016) Deep Residual Learning for Image Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition 770--778
 
 \bibitem{Han2020}
-Han Xu, Adversarial Attacks and Defenses in Images, Graphs and Text: A Review (2020)
-
-\bibitem{Xingjun2019}
-Xingjun Ma, Understanding Adversarial Attacks on Deep Learning Based Medical Image Analysis Systems (2019)
+Han X, Yao M, Debayan D, Hui L, Ji-Liang T, Anil J (2020) Adversarial Attacks and Defenses in Images, Graphs and Text: A Review. International Journal of Automation and Computing 17:151--178
 
 \bibitem{Akhtar2018}
-Naveed Akhtar, Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey (2018)
+Akhtar N, Mian A (2018) Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey. IEEE Access 6:14410--14430
 
 \bibitem{Dalila2018}
-Salamani Dalila, Deep generative models for fast shower simulation in ATLAS (2018)
+Salamani D, Gadatsch S, Golling T,  Stewart G, Ghosh A,  Rousseau D,  Hasib A,  Schaarschmidt J (2018) Deep Generative Models for Fast Shower Simulation in ATLAS. 2018 IEEE 14th International Conference on e-Science (e-Science) \text{https://doi.org/10.1109/eScience.2018.00091}
 
 %\bibitem{RefJ}
 % Format for Journal Reference
