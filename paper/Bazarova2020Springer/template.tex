@@ -1,51 +1,104 @@
-\documentclass[12pt, twoside]{article}
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-
-\usepackage{amsthm}
-\usepackage{a4wide}
+%%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% This is a general template file for the LaTeX package SVJour3
+% for Springer journals.          Springer Heidelberg 2010/09/16
+%
+% Copy it to a new file with a new name and use it as the basis
+% for your article. Delete % signs as needed.
+%
+% This template includes a few options for different layouts and
+% content for various journals. Please consult a previous issue of
+% your journal as needed.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% First comes an example EPS file -- just ignore it and
+% proceed on the \documentclass line
+% your LaTeX will extract the file if required
+\begin{filecontents*}{example.eps}
+%!PS-Adobe-3.0 EPSF-3.0
+%%BoundingBox: 19 19 221 221
+%%CreationDate: Mon Sep 29 1997
+%%Creator: programmed by hand (JK)
+%%EndComments
+gsave
+newpath
+  20 20 moveto
+  20 220 lineto
+  220 220 lineto
+  220 20 lineto .   
+closepath
+2 setlinewidth
+gsave
+  .4 setgray fill
+grestore
+stroke
+grestore
+\end{filecontents*}
+\RequirePackage{fix-cm}
+%
+%\documentclass{svjour3}                     % onecolumn (standard format)
+%\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
+\documentclass[smallextended]{svjour3}       % onecolumn (second format)
+%\documentclass[twocolumn]{svjour3}          % twocolumn
+%
+\smartqed  % flush right qed marks, e.g. at end of proof
+%
 \usepackage{graphicx}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{amssymb}
+\usepackage{subfig}
 \usepackage{amsmath}
-\usepackage{mathrsfs}
-\usepackage{euscript}
-\usepackage{graphicx}
-\usepackage{caption}
-\usepackage{color}
-\usepackage{bm}
-\usepackage{tabularx}
-\usepackage{adjustbox}
-\usepackage[toc,page]{appendix}
-\usepackage{comment}
-\usepackage{rotating}
-
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
-\newtheorem{definition}{Definition}[section]
-\numberwithin{equation}{section}
-\newcommand*{\No}{No.}
-
+\usepackage{amsfonts}
+%
+% \usepackage{mathptmx}      % use Times fonts if available on your TeX system
+%
+% insert here the call for the packages your document requires
+%\usepackage{latexsym}
+% etc.
+%
+% please place your own definitions here and don't use \def but
+% \newcommand{}{}
+%
+% Insert the name of "your journal" with
+% \journalname{myjournal}
+%
 \begin{document}
 
+\title{Analysis of the properties of probabilistic models in learning problems with an expert\thanks{Grants or other notes
+about the article that should go on the front page should be
+placed here. General acknowledgments should be placed at the end of the article.}
+}
+\subtitle{}
 
-\title{\bf Analysis of the properties of probabilistic models in learning problems with an expert}
-\date{}
-\author{}
+%\titlerunning{Short form of title}        % if too long for running head
+
+\author{Andrey V. Grabovoy        \and
+            Alexandra I. Bazarova  \and
+            Vadim V. Strijov
+}
+
+%\authorrunning{Short form of author list} % if too long for running head
+\institute{
+            Andrey V. Grabovoy\at Moscow Institute of Physics and Technology\\
+              9 Institutskiy per., Dolgoprudny, Moscow Region, 141701, Russian Federation \\
+              \email{grabovoy.av@phystech.edu}
+           \and
+           Alexandra I. Bazarova\at Moscow Institute of Physics and Technology\\
+              9 Institutskiy per., Dolgoprudny, Moscow Region, 141701, Russian Federation \\
+              \email{bazarova.ai@phystech.edu}
+           \and
+           Vadim V. Strijov \at Moscow Institute of Physics and Technology\\
+              9 Institutskiy per., Dolgoprudny, Moscow Region, 141701, Russian Federation \\
+              \email{strijov@phystech.edu}
+}
+
+\date{Received: date / Accepted: date}
+% The correct dates will be entered by the editor
+
+
 \maketitle
 
-
-
-\begin{center}
-\bf
-A.\,V.~Grabovoy\footnote{Moscow Institute of Physics and Technology, grabovoy.av@phystech.edu}, 
-A.\,I. Bazarova\footnote{Moscow Institute of Physics and Technology, bazarova.ai@phystech.edu}, 
-V.\,V.~Strijov\footnote{Moscow Institute of Physics and Technology, strijov@phystech.edu}
-
-\end{center}
-{\centering\begin{quote}
-\textbf{Abstract:} This paper is devoted to the construction of interpretable models in machine learning. 
+\begin{abstract}
+This paper is devoted to the construction of interpretable models in machine learning. 
 It solves the problem of approximating a given set of figures on a contour image.
 Assumptions are introduced that the figures are curves of the second order.
 When approximating figures, information about the type, location and form of curves, as well as the set of their possible transformations, is used.
@@ -55,17 +108,13 @@ Each local model, based on expert information, approximates one shape in the con
 To build models, it is proposed to map second-order curves into a feature space where each local model is a linear model.
 Thus, higher-order curves are recognized using the composition of linear models.
 As an applied problem, the problem of approximating the iris of the eye on a contour image is considered.
-    
+\keywords{Mixture of experts \and Expert learning \and Linear models \and Interpretabe models}
+% \PACS{PACS code1 \and PACS code2 \and more}
+% \subclass{MSC code1 \and MSC code2 \and more}
+\end{abstract}
 
-    
-\smallskip
-\textbf{Keywords}: mixture of experts, expert learning, linear models, interpretabe models
-\smallskip
-%\textbf{DOI}: 00.00000/00000000000000
-\end{quote}
-}
-
-\section {Introduction}
+\section{Introduction}
+\label{intro}
 Interpretable model building in machine learning~\cite{Ribeiro2016} is one of the key challenges.
 Modern solutions of the image classification problem based on deep learning networks ResNet, VGG, Intercept~\cite{Kaiming2015} are poorly interpreted models.
 The papers~\cite{Han2020, Xingjun2019, Akhtar2018} show that deep learning networks are sensitive even to small noise in the data, which is due to their uninterpretability.
@@ -77,15 +126,14 @@ It is assumed that the use of expert information allows the sample to be approxi
 
 This paper solves the problem of approximating second-order curves on a contour image. Second-order curves are selected for analysis, since they are easily described by linear models. In this case, these figures need to be restored in such applied problems as the problem of recognizing the iris of the eye~\cite{Matveev2010, Matveev2014, Bowyer2010}, the problem of describing the particle track in the hadron collider~\cite{Dalila2018}. Expert information about a second-order curve allows you to map points on a plane into a new feature description, where each curve is approximated by one linear model. A model that approximates one curve is called a \textit {local model}. To approximate the entire contour image, it is required to approximate several second-order curves using several local models. In this paper, the following restrictions on images are introduced:
 \begin{enumerate}
-	\item[1)] the image consists only of second-order curves;
-	\item[2)] the image is approximated by a small number of second-order curves;
-	\item[3)] the number and type of curves in the image is known.
+	\item the image consists only of second-order curves;
+	\item the image is approximated by a small number of second-order curves;
+	\item the number and type of curves in the image is known.
 \end{enumerate}
 
 \begin{figure}[h!]
-     \centering
      \includegraphics[width=\textwidth]{figures/explanation}
-\caption {Example: a) expert information of the first expert; b) baseline data; c) expert information of the second expert.}
+     \caption {Example: a) expert information of the first expert; b) baseline data; c) expert information of the second expert}
     \label{intro:fig2}
 \end{figure}
 
@@ -96,20 +144,10 @@ When approximating several curves on one contour image, a multi-model is built. 
 As an example, the problem of approximation of the iris image is considered. Figure~\ref{intro:fig1:real} shows an example of the image that needs to be approximated. In this paper, we consider a processed image, which is given in outline form, an example of such an image is shown in Figure~\ref{intro:fig1:outer}. Figure~\ref{intro:fig1:outer} shows two local circle models that approximate the iris of the eye. Circumferences are a simple example of a second order curve.
 
 \begin{figure}[h!]
-     \centering
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/real_image}
-         \caption{}
-         \label{intro:fig1:real}
-     \end{subfigure}
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/outline_image}
-         \caption{}
-         \label{intro:fig1:outer}
-     \end{subfigure}
-\caption{An example of the image of the iris of the eye and its outline representation: a) the image of the iris of the eye; b) contour image of the iris and approximating the given image of the circumferences.}    \label{intro:fig1}
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/real_image}\label{intro:fig1:real}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/outline_image}\label{intro:fig1:outer}} 
+\caption{An example of the image of the iris of the eye and its outline representation: a) the image of the iris of the eye; b) contour image of the iris and approximating the given image of the circumferences}
+\label{intro:fig1}
 \end{figure}
 
 For the problem of approximating the iris of the eye, the following expert information is used: the iris of the eye is approximated by two concentric circumferences. Expert information is used to construct a feature description of plane points, as well as to build an optimization function. The part of the error function for optimization that uses expert information is called a regularizer. Thus, the information that the image of the circumferences is specified by the feature description, and the information that the concentric circumferences are specified using a special regularizer.
@@ -117,10 +155,11 @@ For the problem of approximating the iris of the eye, the following expert infor
 In a computational experiment, the quality of the approximation of the contour image is analyzed depending on the specified expert information and on the noise level in the synthetically generated data. The analysis of the quality of the approximation of the iris is carried out, depending on the amount of expert information that was used to build the model. Note that each approximated image is a separate set of points that need to be approximated.
 
 \section{Statement of the problem of finding the parameters of the second-order curves in the image}
+\label{sec:1}
 Binary image is set:
 $$ \mathbf{M} \in \{0, 1 \}^{m_1\times m_2},$$
 where 1 corresponds to the black point of the image, and 0 corresponds to the white point of the background.
-From the image $\mathbf {M} $, a sample$ \mathbf{C}$ is constructed, the elements of which are the coordinates $(x_i, y_i)$ of black points: $$\mathbf {C} \in \mathbb {R}^{N \times 2}. $$
+From the image $\mathbf {M} $, a sample$ \mathbf{C}$ is constructed, the elements of which are the coordinates $(x_i, y_i)$ of black points: $$\mathbf{C} \in \mathbb{R}^{N \times 2}. $$
 The expert assumes that the image consists of a second-order curve~$\Omega$.
 Let for a set of points $\mathbf {C} \in \mathbb {R}^{N \times 2} $ that form a curve $\Omega, $ expert information about the figure $E(\Omega) $is given.
 The set $E (\Omega)$ consists of the shape $\Omega$ expected by the expert and the set of its admissible transformations. Based on the expert description, let us introduce mappings into a new problem for approximation:
@@ -192,7 +231,8 @@ To find the optimal parameters of the multi-model, it is necessary to solve the 
 \end{equation}
 where $\mathbf{W} = [\mathbf{w}_1, \dots, \mathbf{w}_k]$ are  parameters of local models, $R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)$ is regularization parameters, based on expert information.
 
-\section{Building an attribute description of figures }
+\section{Building an attribute description of figures}
+\label{sec:3}
 \paragraph{ Unified space for second-order curves.} An arbitrary second-order curve, the main axis of which is not parallel to the ordinate axis, is given by the following expression:
 \[
 \label{st:coef}
@@ -222,8 +262,9 @@ K_{x}(\mathbf{c}_i) = [x_i, \, y_i, \, 1] = \mathbf{x}, \,  K_{y}(\mathbf{c}_i) 
 Assign the linear regression problem \eqref{eq4}.
 Vector components $\mathbf{w} = [w_0, \, w_1, \, w_2]^\mathsf{T}$, binding $\mathbf{x}$ and $y$, restore the parameters of the circumference: \begin{equation} x_0 = \frac{w_0}{2}, \; y_0 = \frac{w_1}{2}, \; r = \sqrt{w_3 + x_0^2 + y_0 ^2}.\end{equation}
 
-\section{Composition of figures }
-To construct a composition of figures, we will use the expression~\eqref{9}, which takes the following form:
+\section{Composition of figures}
+\label{sec:4}
+o construct a composition of figures, we will use the expression~\eqref{9}, which takes the following form:
 \begin{equation} 
 \label{statment:optim:task}
 \begin{aligned}
@@ -240,39 +281,26 @@ where~$K^{k}_x, K^{k}_y$ expert representation of the~$k$-th expert. Assuming th
 
 As a regularizer~$R$, additional restrictions on the vectors of model parameters are considered. To solve the optimization problem~\eqref{statment:optim:task:simp} it is proposed to use the EM-algorithm.
 
-\section{ Computing experiment }
+\section{Computing experiment}
+\label{sec:5}
+
 A computational experiment was carried out to analyze the quality of models of second-order curves in the image. The experiment is divided into several parts. The first part is an experiment with several circumferences in the image. The second part analyzes the convergence of the method depending on the noise level in the data and on the specified expert information. In the third part, an experiment is conducted to approximate the iris of the eye.
 
 \subsection{ Experiment with circumstances }
 \begin{figure}[h!]
-\begin{minipage}{.32\textwidth}
-      \includegraphics[width =  \textwidth]{figures/900.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{2mm}
-      \includegraphics[width =  0.9\textwidth]{figures/901.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{-2.3mm}
-      \includegraphics[width =  0.935\textwidth]{figures/902.eps}
-\end{minipage}
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/900.eps}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/901.eps}}
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/902.eps}} 
+
 \caption{Multi-model depending on different prior assumptions and noise level. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig3}
 \end{figure}
 
 \begin{figure}[h]
-\begin{minipage}{.32\textwidth}
-\hspace{-3mm}
-      \includegraphics[width = 1.05\textwidth]{figures/900noise.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{-2.1mm}
-      \includegraphics[width = \textwidth]{figures/901noise.eps}
-\end{minipage}
-\begin{minipage}{.32\textwidth}
-\hspace{-2mm}
-      \includegraphics[width = 0.95\textwidth]{figures/902noise.eps}
-\end{minipage}
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/900noise.eps}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/901noise.eps}}\\
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/902noise.eps}} 
+
 \caption{Dependence of the parameters  $r$, $x_0$ and $y_0$ on the iteration number for different prior distributions. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig4}
 \end{figure}
@@ -283,7 +311,7 @@ Figure~\ref{ce:fig3} shows the result of building an ensemble of locally approxi
 Figure~\ref{ce:fig4} shows a graph of the dependence of the radius of the circumferences $r$ and their centers $(x_0, y_0)$ on the iteration number. 
 
 \subsection{ Experiment with different noise levels and variance of the prior distribution }
-\begin{figure}[h!t]\center
+\begin{figure}[h!t]
 \includegraphics[width=0.8\textwidth]{figures/beta_gamma}
 \caption{ The result of the approximation for data with different noise levels~$\beta$ and on the variance of the prior distribution~$\gamma$}
 \label{ce:fig6}
@@ -307,44 +335,28 @@ Figure~\ref{ce:fig5} shows the dependence of the quality criterion~$S$ on the no
 Figure~\ref{ce:fig5} shows an example of how the algorithm works with different parameters~$\beta$ and $\gamma$. It is seen that in the absence of noise~$\beta$, both local models approximate the sample. With an increase in the noise level, the quality of the approximation decreases: at~$\beta = 0 {,}2$, with an increase in $\gamma$, the first local model from a parabola goes over to an ellipse; for~$\beta=0 {,}4$ as $\gamma$ increases, the first local model from a parabola goes over to an ellipse, and the second model from a parabola goes over to a hyperbola.
 
 \subsection{Iris approximations }
-\begin{figure}
-     \centering
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/not_prior_real_example}
-         \caption{}
-     \end{subfigure}
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/prior_real_example}
-         \caption{}
-     \end{subfigure}
-     \begin{subfigure}[b]{0.3\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/prior_regular_real_example}
-         \caption{}
-     \end{subfigure}
-     \caption{ Visualization of the approximation of the iris: a) if the $ R_0 $ regularizer is specified; b) if the $ R_1 $ regularizer is specified; b) if the $ R_2 $ regularizer is specified.}
-    \label{ce:fig6}
+\begin{figure}[h!]
+	\subfloat[]{\includegraphics[height = 0.17\textheight]{figures/not_prior_real_example}} 
+	\subfloat[]{\includegraphics[height = 0.17\textheight]{figures/prior_real_example}}
+	\subfloat[]{\includegraphics[height = 0.17\textheight]{figures/prior_regular_real_example}} 
+\caption{Visualization of the approximation of the iris: a) if the $ R_0 $ regularizer is specified; b) if the $ R_1 $ regularizer is specified; b) if the $ R_2 $ regularizer is specified}
+\label{ce:fig6}
 \end{figure}
 
+
 \begin{figure}
-     \centering
      \includegraphics[width=\textwidth]{figures/experiment_real_not_prior}\\
-     
      \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_0$}
     \label{ce:fig7}
 \end{figure}
 
 \begin{figure}
-     \centering
      \includegraphics[width=\textwidth]{figures/experiment_real_prior}
      \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_1$}
     \label{ce:fig8}
 \end{figure}
 
 \begin{figure}
-     \centering
      \includegraphics[width=\textwidth]{figures/experiment_real_regular}
      \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_2$}
     \label{ce:fig9}
@@ -365,88 +377,95 @@ Figure~\ref{ce:fig7}--\ref{ce:fig9} shows the process of convergence of multi-mo
 
 
 \section{Conclusion}
+\label{sec:6}
 The paper proposes a method for constructing interpretable machine learning models based on expert information. The problem of approximation of the second-order curves: parabola, hyperbola, ellipse is considered as a problem. Approximation of curves of the second order is applied in the problem of approximation of the iris of the eye.
 
 An experiment was carried out during which the quality of the approximation of the second-order curves is analyzed depending on the initial noise level in the data, as well as depending on the regularizer. During the experiment, it was shown that with an increase in the noise level in the initial data, the approximation accuracy decreases: with a large noise, the shape of the approximated figure changes from a parabola to a hyperbola.
 A computational experiment was carried out to approximate the iris of the eye using two concentric circles. The experiment shows that regularization based on expert information improves the quality of the approximation.
 
-\begin{thebibliography}{99}
+%\begin{acknowledgements}
+%If you'd like to thank anyone, place your comments here
+%and remove the percent signs.
+%\end{acknowledgements}
+
+
+% Authors must disclose all relationships or interests that 
+% could have direct or potential influence or impart bias on 
+% the work: 
+%
+% \section*{Conflict of interest}
+%
+% The authors declare that they have no conflict of interest.
+
+
+% BibTeX users please use one of
+%\bibliographystyle{spbasic}      % basic style, author-year citations
+%\bibliographystyle{spmpsci}      % mathematics and physical sciences
+%\bibliographystyle{spphys}       % APS-like style for physics
+%\bibliography{}   % name your BibTeX data base
+
+% Non-BibTeX users please use
+\begin{thebibliography}{}
+%
+% and use \bibitem to create references. Consult the Instructions
+% for authors for reference list style.
+%
 \bibitem{Ribeiro2016}
-	\textit{Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin} "Why Should I Trust You?": Explaining the Predictions of Any Classifier // Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining PP. 1135--1144. 2016
-
+Marco Tulio Ribeiro, Sameer Singh, Carlos Guestrin, Why Should I Trust You?": Explaining the Predictions of Any Classifier, Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining, 1135--1144 (2016)
 \bibitem{Tianqi2016}
-	\textit{Chen Tianqi, Guestrin Carlos} XGBoost: A Scalable Tree Boosting System~// KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. 2016.
-	
+Chen Tianqi, Guestrin Carlos, XGBoost: A Scalable Tree Boosting System, KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (2016)
 \bibitem{Ishwaran2012}
-	\textit{Chen Xi, Ishwaran Hemant} Random Forests for Genomic Data Analysis~// Genomics. 2012. Issues. 99, No 6. pp. 323--329.
-
+Chen Xi, Ishwaran Hemant, Random Forests for Genomic Data Analysis, Genomics, Vol. 6, 323--329 (2012)
 \bibitem{Yuksel2012}
-	\textit{Yuksel Seniha Esen, Wilson Joseph N., Gader Paul D} Twenty Years of Mixture of Experts~// IEEE Transactions on Neural Networks and Learning Systems. 2012. Issues. 23, No 8. pp. 1177--1193.
-
-
+Yuksel Seniha Esen, Wilson Joseph N., Gader Paul D, Twenty Years of Mixture of Experts, IEEE Transactions on Neural Networks and Learning Systems, Vol. 8, 1177--1193 (2012)
 \bibitem{Cao2003}
-	\textit{L.~Cao} Support vector machines experts for time series forecasting~// Neurocomputing, vol. 51, pp. 321–339, Apr. 2003.
-
+L.~Cao, Support vector machines experts for time series forecasting, Neurocomputing, Vol. 51, 321--339 (2003)
 \bibitem{Dempster1977}
-	\textit{A. P. Dempster, N. M. Laird and D. B. Rubin} Maximum Likelihood from Incomplete Data via the EM Algorithm~// Journal of the Royal Statistical Society. Series B (Methodological), Vol. 39, No. 1 pp. 1-38, 1977.
-	
-	
+A. P. Dempster, N. M. Laird and D. B. Rubin, Maximum Likelihood from Incomplete Data via the EM Algorithm, Journal of the Royal Statistical Society. Series B (Methodological), Vol. 39, 1--38 (1997)
 \bibitem{Yumlu2003}
-	\textit{M.\,S.~Yumlu, F.\,S.~Gurgen,  N.~Okay} Financial time series prediction using mixture of experts~// In Proc. 18th Int. Symp. Comput. Inf. Sci., 2003, pp. 553--560.
-	
+M.\,S.~Yumlu, F.\,S.~Gurgen,  N.~Okay, Financial time series prediction using mixture of experts, In Proc. 18th Int. Symp. Comput. Inf. Sci., 553--560 (2003)
 \bibitem{Cheung1995}
-	\textit{Y.~M.~Cheung, W.~M.~Leung, and L. Xu} Application of mixture of experts model to financial time series forecasting~// In Proc. Int. Conf. Neural Netw. Signal Process., 1995, pp. 1--4.
-	
+Y.~M.~Cheung, W.~M.~Leung, and L. Xu,  Application of mixture of experts model to financial time series forecasting, In Proc. Int. Conf. Neural Netw. Signal Process., 1--4 (1995)
 \bibitem{Weigend2000}
-	\textit{A. S. Weigend, S. Shi} Predicting daily probability distributions of S\&P500 returns~// J. Forecast., vol. 19, no. 4, pp. 375--392, 2000.
-	
+A. S. Weigend, S. Shi, Predicting daily probability distributions of S\&P500 returns, J. Forecast., Vol. 19, 375--392 (2000)
 \bibitem{Ebrahimpour2009}
-	\textit{R. Ebrahimpour, M. R. Moradian, A. Esmkhani, F. M. Jafarlou} Recognition of Persian handwritten digits using characterization loci and mixture of experts~// J. Digital Content Technol. Appl., vol. 3, no. 3, pp. 42–46, 2009.
-	
-\bibitem{Estabrooks2001}
-	\textit{A.~Estabrooks, N.~Japkowicz} A mixture-of-experts framework for text classification~//in Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist., 2001, pp. 1--8.
-	
+A.~Estabrooks, N.~Japkowicz, A mixture-of-experts framework for text classification, In Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist., 1--8 (2009)
 \bibitem{Mossavat2010}
-	\textit{S. Mossavat, O. Amft, B. de Vries, P. Petkov, W. Kleijn} A Bayesian hierarchical mixture of experts approach to estimate speech quality~// in Proc. 2nd Int. Workshop Qual. Multimedia Exper., pp. 200--205., 2010
-	
+S. Mossavat, O. Amft, B. de Vries, P. Petkov, W. Kleijn, A Bayesian hierarchical mixture of experts approach to estimate speech quality, In Proc. 2nd Int. Workshop Qual. Multimedia Exper., 200--205 (2010)
 \bibitem{Sminchisescu2007}
-	\textit{C. Sminchisescu, A. Kanaujia, and D. Metaxas} B M3 E: Discrimina- tive density propagation for visual tracking~// IEEE Trans. Pattern Anal. Mach. Intell., vol. 29, no. 11, pp. 2030–2044, 2007.
-	
+C. Sminchisescu, A. Kanaujia, and D. Metaxas, B M3 E: Discrimina- tive density propagation for visual tracking, IEEE Trans. Pattern Anal. Mach. Intell., Vol. 29, 2030--2044 (2007)
 \bibitem{Matveev2010}
-	\textit{I. Matveev} Detection of iris in image by interrelated maxima of brightness gradient projections~// Appl.Comput. Math. 9 (2), 252–257, 2010.
-
+I. Matveev, Detection of iris in image by interrelated maxima of brightness gradient projections, Appl.Comput. Math, Vol. 9, 252--257 (2010)
 \bibitem{Matveev2014}
-	\textit{I. Matveev, I. Simonenko}. Detecting precise iris boundaries by circular shortest path method~// Pattern Recognition and Image Analysis. 24. 304-309. 2014.
-	
+I. Matveev, I. Simonenko, Detecting precise iris boundaries by circular shortest path method, Pattern Recognition and Image Analysis, Vol. 24, 304--309 (2014)
 \bibitem{Bowyer2010}
-	\textit{K. Bowyer, K. Hollingsworth, P. Flynn} A Survey of Iris Biometrics Research: 2008–2010.
-
+K. Bowyer, K. Hollingsworth, P. Flynn, A Survey of Iris Biometrics Research (2010)
 \bibitem{Peng1996}
-	\textit{F. Peng, R. A. Jacobs, M. A. Tanner} Bayesian inference in mixtures-of-experts and hierarchical mixtures-of-experts models with an application to speech recognition~// J. Amer. Stat. Assoc., vol. 91, no. 435, pp. 953–960, 1996.
-	
+F. Peng, R. A. Jacobs, M. A. Tanner, Bayesian inference in mixtures-of-experts and hierarchical mixtures-of-experts models with an application to speech recognition, J. Amer. Stat. Assoc., Vol. 91, 953--960 (1996)
 \bibitem{Tuerk2001}
-	\textit{A. Tuerk} The state based mixture of experts HMM with applications to the recognition of spontaneous speech~// Ph.D. thesis, Dept. Eng., Univ. Cambridge, Cambridge, U.K., 2001.
-	
+A. Tuerk,  The state based mixture of experts HMM with applications to the recognition of spontaneous speech, Ph.D. thesis, Dept. Eng., Univ. Cambridge, Cambridge, U.K. (2001)
 \bibitem{bishop2006}
-	\textit{Bishop C.} Pattern Recognition and Machine Learning.~---~Berlin: Springer, 2006. 758~p.
-
+Bishop C., Pattern Recognition and Machine Learning, 758, Springer, Berlin (2010)
 \bibitem{Kaiming2015}
-	\textit{Kaiming He} Deep Residual Learning for Image Recognition.
-	
+Kaiming He, Deep Residual Learning for Image Recognition (2015)
 \bibitem{Han2020}
-	\textit{Han Xu} Adversarial Attacks and Defenses in Images, Graphs and Text: A Review
-	
+Han Xu, Adversarial Attacks and Defenses in Images, Graphs and Text: A Review (2020)
 \bibitem{Xingjun2019}
-	\textit{Xingjun Ma} Understanding Adversarial Attacks on Deep Learning Based Medical Image Analysis Systems
-	
+Xingjun Ma, Understanding Adversarial Attacks on Deep Learning Based Medical Image Analysis Systems (2019)
 \bibitem{Akhtar2018}
-	\textit{Naveed Akhtar} Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey
-	
+Naveed Akhtar, Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey (2018)
 \bibitem{Dalila2018}
-	\textit{Salamani Dalila} Deep generative models for fast shower simulation in ATLAS
-	
- \end{thebibliography}
+Salamani Dalila, Deep generative models for fast shower simulation in ATLAS (2018)
 
+%\bibitem{RefJ}
+% Format for Journal Reference
+%Author, Article title, Journal, Volume, page numbers (year)
+% Format for books
+%\bibitem{RefB}
+%Author, Book title, page numbers. Publisher, place (year)
+% etc
+\end{thebibliography}
 
 \end{document}
+% end of file template.tex
 
