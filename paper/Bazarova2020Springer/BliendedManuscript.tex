@@ -129,7 +129,7 @@ It is assumed that the use of expert information allows the sample to be approxi
 This paper solves the problem of approximating second-order curves on a contour image. Second-order curves are selected for analysis, since they are easily described by linear models. In this case, these figures need to be restored in such applied problems as the problem of recognizing the iris of the eye~(Matveev 2010; Matveev et al. 2014; Bowyer et al. 2010), the problem of describing the particle track in the hadron collider~(Salamani et al. 2018). Expert information about a second-order curve allows you to map points on a plane into a new feature description, where each curve is approximated by one linear model. A model that approximates one curve is called a \textit {local model}. To approximate the entire contour image, it is required to approximate several second-order curves using several local models. In this paper, the following restrictions on images are introduced: a) the image consists only of second-order curves; b) the image is approximated by a small number of second-order curves; c) the number and type of curves in the image is known.
 
 \begin{figure}[h!]
-     \includegraphics[width=\textwidth]{figures/explanation}
+     \includegraphics[width=\textwidth]{explanation}
      \caption {Example: a) expert information of the first expert; b) baseline data; c) expert information of the second expert}
     \label{intro:fig2}
 \end{figure}
@@ -141,8 +141,8 @@ When approximating several curves on one contour image, a multi-model is built. 
 As an example, the problem of approximation of the iris image is considered. Figure~\ref{intro:fig1:real} shows an example of the image that needs to be approximated. In this paper, we consider a processed image, which is given in outline form, an example of such an image is shown in Figure~\ref{intro:fig1:outer}. Figure~\ref{intro:fig1:outer} shows two local circle models that approximate the iris of the eye. Circumferences are a simple example of a second order curve.
 
 \begin{figure}[h!]
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/real_image}\label{intro:fig1:real}} 
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/outline_image}\label{intro:fig1:outer}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{real_image}\label{intro:fig1:real}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{outline_image}\label{intro:fig1:outer}} 
 \caption{An example of the image of the iris of the eye and its outline representation: a) the image of the iris of the eye; b) contour image of the iris and approximating the given image of the circumferences}
 \label{intro:fig1}
 \end{figure}
@@ -285,18 +285,18 @@ A computational experiment was carried out to analyze the quality of models of s
 
 \subsection{ Experiment with circumstances }
 \begin{figure}[h!]
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/900.eps}} 
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/901.eps}}
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/902.eps}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{900.eps}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{901.eps}}
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{902.eps}} 
 
 \caption{Multi-model depending on different prior assumptions and noise level. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig3}
 \end{figure}
 
 \begin{figure}[h]
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/900noise.eps}} 
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/901noise.eps}}\\
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{figures/902noise.eps}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{900noise.eps}} 
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{901noise.eps}}\\
+	\subfloat[]{\includegraphics[height = 0.2\textheight]{902noise.eps}} 
 
 \caption{Dependence of the parameters  $r$, $x_0$ and $y_0$ on the iteration number for different prior distributions. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig4}
@@ -309,13 +309,13 @@ Figure~\ref{ce:fig4} shows a graph of the dependence of the radius of the circum
 
 \subsection{ Experiment with different noise levels and variance of the prior distribution }
 \begin{figure}[h!t]
-\includegraphics[width=0.8\textwidth]{figures/beta_gamma}
+\includegraphics[width=0.8\textwidth]{beta_gamma}
 \caption{ The result of the approximation for data with different noise levels~$\beta$ and on the variance of the prior distribution~$\gamma$}
 \label{ce:fig6}
 \end{figure}
 
 \begin{figure}[h!t]
-\includegraphics[width=0.5\textwidth]{figures/3dplot}
+\includegraphics[width=0.5\textwidth]{3dplot}
 \caption{Dependence of models on the noise level~$\beta$ in the data, as well as on the variance of the prior distribution~$\gamma$}
 \label{ce:fig5}
 \end{figure}
@@ -333,28 +333,28 @@ Figure~\ref{ce:fig5} shows an example of how the algorithm works with different 
 
 \subsection{Iris approximations }
 \begin{figure}[h!]
-	\subfloat[]{\includegraphics[height = 0.17\textheight]{figures/not_prior_real_example}} 
-	\subfloat[]{\includegraphics[height = 0.17\textheight]{figures/prior_real_example}}
-	\subfloat[]{\includegraphics[height = 0.17\textheight]{figures/prior_regular_real_example}} 
+	\subfloat[]{\includegraphics[height = 0.17\textheight]{not_prior_real_example}} 
+	\subfloat[]{\includegraphics[height = 0.17\textheight]{prior_real_example}}
+	\subfloat[]{\includegraphics[height = 0.17\textheight]{prior_regular_real_example}} 
 \caption{Visualization of the approximation of the iris: a) if the $ R_0 $ regularizer is specified; b) if the $ R_1 $ regularizer is specified; b) if the $ R_2 $ regularizer is specified}
 \label{ce:fig6}
 \end{figure}
 
 
 \begin{figure}
-     \includegraphics[width=\textwidth]{figures/experiment_real_not_prior}\\
+     \includegraphics[width=\textwidth]{experiment_real_not_prior}\\
      \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_0$}
     \label{ce:fig7}
 \end{figure}
 
 \begin{figure}
-     \includegraphics[width=\textwidth]{figures/experiment_real_prior}
+     \includegraphics[width=\textwidth]{experiment_real_prior}
      \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_1$}
     \label{ce:fig8}
 \end{figure}
 
 \begin{figure}
-     \includegraphics[width=\textwidth]{figures/experiment_real_regular}
+     \includegraphics[width=\textwidth]{experiment_real_regular}
      \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_2$}
     \label{ce:fig9}
 \end{figure}
