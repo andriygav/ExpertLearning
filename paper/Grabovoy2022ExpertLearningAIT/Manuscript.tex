@@ -1,97 +1,33 @@
-%%%%%%%%%%%%%%%%%%%%%%% file template.tex %%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% This is a general template file for the LaTeX package SVJour3
-% for Springer journals.          Springer Heidelberg 2010/09/16
-%
-% Copy it to a new file with a new name and use it as the basis
-% for your article. Delete % signs as needed.
-%
-% This template includes a few options for different layouts and
-% content for various journals. Please consult a previous issue of
-% your journal as needed.
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% First comes an example EPS file -- just ignore it and
-% proceed on the \documentclass line
-% your LaTeX will extract the file if required
-%\begin{filecontents*}{example.eps}
-%!PS-Adobe-3.0 EPSF-3.0
-%%BoundingBox: 19 19 221 221
-%%CreationDate: Mon Sep 29 1997
-%%Creator: programmed by hand (JK)
-%%EndComments
-%gsave
-%newpath
-%  20 20 moveto
-%  20 220 lineto
-%  220 220 lineto
-%  220 20 lineto .   
-%closepath
-%2 setlinewidth
-%gsave
-%  .4 setgray fill
-%grestore
-%stroke
-%grestore
-%\end{filecontents*}
-\RequirePackage{fix-cm}
-%
-%\documentclass{svjour3}                     % onecolumn (standard format)
-%\documentclass[smallcondensed]{svjour3}     % onecolumn (ditto)
-\documentclass[smallextended]{svjour3}       % onecolumn (second format)
-%\documentclass[twocolumn]{svjour3}          % twocolumn
-%
-\smartqed  % flush right qed marks, e.g. at end of proof
-%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%  Sample document for preparing papers to  "Avtomatika i Telemekhanika"
+%%  charset=utf-8
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{a&t}
 \usepackage{graphicx}
-\usepackage{subfig}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-%
-% \usepackage{mathptmx}      % use Times fonts if available on your TeX system
-%
-% insert here the call for the packages your document requires
-%\usepackage{latexsym}
-% etc.
-%
-% please place your own definitions here and don't use \def but
-% \newcommand{}{}
-%
-% Insert the name of "your journal" with
-% \journalname{myjournal}
-%
-\begin{document}
+\usepackage{caption}
+\usepackage{bm}
+\usepackage{url}
+\usepackage{multirow}
+\renewcommand{\baselinestretch}{2}
+\usepackage{cmap}
+\usepackage{autonum}
+\usepackage{cite}
 
-\title{Analysis of the properties of probabilistic models in learning problems with an expert\thanks{The reported study was funded by Russian Foundation for Basic Research according to the research projects 20-37-90050, 19-07-01155 and National Technological Initiative project 13/1251/2018.}
-}
-\subtitle{}
+\usepackage[labelformat=empty]{caption}
 
-\titlerunning{Probabilistic models in learning with an expert}        % if too long for running head
+\begin{document}  %%%!!!
 
-\author{Andrey V. Grabovoy        \and
-            Alexandra I. Bazarova  \and
-            Vadim V. Strijov
-}
+\year{2022}
 
-%\authorrunning{Short form of author list} % if too long for running head
-\institute{
-            Andrey V. Grabovoy\at Moscow Institute of Physics and Technology\\
-              9 Institutskiy per., Dolgoprudny, Moscow Region, 141701, Russian Federation \\
-              \email{grabovoy.av@phystech.edu}
-           \and
-           Alexandra I. Bazarova\at Moscow Institute of Physics and Technology\\
-              9 Institutskiy per., Dolgoprudny, Moscow Region, 141701, Russian Federation \\
-              \email{bazarova.ai@phystech.edu}
-           \and
-           Vadim V. Strijov \at Moscow Institute of Physics and Technology\\
-              9 Institutskiy per., Dolgoprudny, Moscow Region, 141701, Russian Federation \\
-              \email{strijov@phystech.edu}
-}
+\title{Analysis of the properties of probabilistic models in learning problems with an expert}%
+\thanks{The reported study was funded by Russian Foundation for Basic Research according to the research projects 20-37-90050, 19-07-01155 and National Technological Initiative project 13/1251/2018.}
 
-\date{Received: date / Accepted: date}
-% The correct dates will be entered by the editor
 
+\authors{А.В.~ГРАБОВОЙ (grabovoy.av@phystech.edu)\\
+(Московский физико-технический институт),\\
+В.В.~СТРИЖОВ, д-р~физ.-мат.~наук (strijov@phystech.edu)\\
+(Вычислительный центр им. А.А. Дородницына ФИЦ ИУ РАН)}
 
 \maketitle
 
@@ -106,9 +42,9 @@ Each local model, based on expert information, approximates one shape in the con
 To build models, it is proposed to map second-order curves into a feature space where each local model is a linear model.
 Thus, higher-order curves are recognized using the composition of linear models.
 As an applied problem, the problem of approximating the iris of the eye on a contour image is considered.
-\keywords{Mixture of experts \and Expert learning \and Linear models \and Interpretabe models}
-% \PACS{PACS code1 \and PACS code2 \and more}
-% \subclass{MSC code1 \and MSC code2 \and more}
+
+\smallskip\\
+\textit{Ключевые слова}: Mixture of experts; Expert learning;  Linear models; Interpretabe models.
 \end{abstract}
 
 \section{Introduction}
@@ -125,10 +61,11 @@ It is assumed that the use of expert information allows the sample to be approxi
 This paper solves the problem of approximating second-order curves on a contour image. Second-order curves are selected for analysis, since they are easily described by linear models. In this case, these figures need to be restored in such applied problems as the problem of recognizing the iris of the eye~(Matveev 2010; Matveev et al. 2014; Bowyer et al. 2010), the problem of describing the particle track in the hadron collider~(Salamani et al. 2018). Expert information about a second-order curve allows you to map points on a plane into a new feature description, where each curve is approximated by one linear model. A model that approximates one curve is called a \textit {local model}. To approximate the entire contour image, it is required to approximate several second-order curves using several local models. In this paper, the following restrictions on images are introduced: a) the image consists only of second-order curves; b) the image is approximated by a small number of second-order curves; c) the number and type of curves in the image is known.
 
 \begin{figure}[h!]
-     \includegraphics[width=\textwidth]{explanation}
-     \caption {Example: a) expert information of the first expert; b) baseline data; c) expert information of the second expert}
-    \label{intro:fig2}
+  \includegraphics[width=\textwidth]{explanation}
+  \caption {Example: a) expert information of the first expert; b) baseline data; c) expert information of the second expert}
+  \label{intro:fig2}
 \end{figure}
+
 
 Figure~\ref{intro:fig2} shows an example of second-order curves, as well as expert information on curves. Figure~\ref{intro:fig2} a shows the expert information of the first expert. Using this information, the first curve is fitted with a linear model and the second curve is noise. Figure~\ref{intro:fig2} b shows the expert information of the second expert. Using this information, the second curve is fitted with a linear model and the first curve is noise.
 
@@ -137,8 +74,8 @@ When approximating several curves on one contour image, a multi-model is built. 
 As an example, the problem of approximation of the iris image is considered. Figure~\ref{intro:fig1:real} shows an example of the image that needs to be approximated. In this paper, we consider a processed image, which is given in outline form, an example of such an image is shown in Figure~\ref{intro:fig1:outer}. Figure~\ref{intro:fig1:outer} shows two local circle models that approximate the iris of the eye. Circumferences are a simple example of a second order curve.
 
 \begin{figure}[h!]
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{real_image}\label{intro:fig1:real}} 
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{outline_image}\label{intro:fig1:outer}} 
+\includegraphics[width=0.5\textwidth]{real_image}\label{intro:fig1:real}
+\includegraphics[width=0.5\textwidth]{outline_image}\label{intro:fig1:outer}
 \caption{An example of the image of the iris of the eye and its outline representation: a) the image of the iris of the eye; b) contour image of the iris and approximating the given image of the circumferences}
 \label{intro:fig1}
 \end{figure}
@@ -281,19 +218,18 @@ A computational experiment was carried out to analyze the quality of models of s
 
 \subsection{ Experiment with circumstances }
 \begin{figure}[h!]
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{900.eps}} 
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{901.eps}}
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{902.eps}} 
+	\includegraphics[height = 0.2\textheight]{900.eps}
+	\includegraphics[height = 0.2\textheight]{901.eps}
+	\includegraphics[height = 0.2\textheight]{902.eps}
 
 \caption{Multi-model depending on different prior assumptions and noise level. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig3}
 \end{figure}
 
 \begin{figure}[h]
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{900noise.eps}} 
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{901noise.eps}}\\
-	\subfloat[]{\includegraphics[height = 0.2\textheight]{902noise.eps}} 
-
+	\includegraphics[height = 0.2\textheight]{900noise.eps}
+	\includegraphics[height = 0.2\textheight]{901noise.eps}
+	\includegraphics[height = 0.2\textheight]{902noise.eps}
 \caption{Dependence of the parameters  $r$, $x_0$ and $y_0$ on the iteration number for different prior distributions. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
 \label{ce:fig4}
 \end{figure}
@@ -329,9 +265,9 @@ Figure~\ref{ce:fig5} shows an example of how the algorithm works with different 
 
 \subsection{Iris approximations }
 \begin{figure}[h!]
-	\subfloat[]{\includegraphics[height = 0.17\textheight]{not_prior_real_example}} 
-	\subfloat[]{\includegraphics[height = 0.17\textheight]{prior_real_example}}
-	\subfloat[]{\includegraphics[height = 0.17\textheight]{prior_regular_real_example}} 
+	\includegraphics[height = 0.17\textheight]{not_prior_real_example}
+	\includegraphics[height = 0.17\textheight]{prior_real_example}
+	\includegraphics[height = 0.17\textheight]{prior_regular_real_example}
 \caption{Visualization of the approximation of the iris: a) if the $ R_0 $ regularizer is specified; b) if the $ R_1 $ regularizer is specified; b) if the $ R_2 $ regularizer is specified}
 \label{ce:fig6}
 \end{figure}
@@ -376,38 +312,7 @@ The paper proposes a method for constructing interpretable machine learning mode
 An experiment was carried out during which the quality of the approximation of the second-order curves is analyzed depending on the initial noise level in the data, as well as depending on the regularizer. During the experiment, it was shown that with an increase in the noise level in the initial data, the approximation accuracy decreases: with a large noise, the shape of the approximated figure changes from a parabola to a hyperbola.
 A computational experiment was carried out to approximate the iris of the eye using two concentric circles. The experiment shows that regularization based on expert information improves the quality of the approximation.
 
-\begin{acknowledgements}
-The reported study was funded by Russian Foundation for Basic Research according to the research projects 20-37-90050, 19-07-01155 and National Technological Initiative project 13/1251/2018.
-\end{acknowledgements}
-
-
-%\begin{acknowledgements}
-%If you'd like to thank anyone, place your comments here
-%and remove the percent signs.
-%\end{acknowledgements}
-
-
-% Authors must disclose all relationships or interests that 
-% could have direct or potential influence or impart bias on 
-% the work: 
-%
-% \section*{Conflict of interest}
-%
-% The authors declare that they have no conflict of interest.
-
-
-% BibTeX users please use one of
-%\bibliographystyle{spbasic}      % basic style, author-year citations
-%\bibliographystyle{spmpsci}      % mathematics and physical sciences
-%\bibliographystyle{spphys}       % APS-like style for physics
-%\bibliography{}   % name your BibTeX data base
-
-% Non-BibTeX users please use
 \begin{thebibliography}{}
-%
-% and use \bibitem to create references. Consult the Instructions
-% for authors for reference list style.
-%
 \bibitem{Akhtar2018}
 Akhtar N, Mian A (2018) Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey. IEEE Access 6:14410--14430
 
