@@ -9,22 +9,23 @@
 \usepackage{bm}
 \usepackage{url}
 \usepackage{multirow}
-\renewcommand{\baselinestretch}{2}
 \usepackage{cmap}
 \usepackage{autonum}
 \usepackage{cite}
 
 \usepackage[labelformat=empty]{caption}
 
-\begin{document}  %%%!!!
+\begin{document}
 
 \year{2022}
 
-\title{Analysis of the properties of probabilistic models in learning problems with an expert}%
-\thanks{The reported study was funded by Russian Foundation for Basic Research according to the research projects 20-37-90050, 19-07-01155 and National Technological Initiative project 13/1251/2018.}
+\title{Анализ свойств вероятностных моделей в задачах обучения с экспертом}%
+\thanks{Исследование выполнено при финансовой поддержке Российского Фонда Фундаментальных Исследований в рамках научных проектов 20-37-90050, 19-07-01155 и проекта Национальной Технологической Инициативы 13/1251/2018.}
 
 
-\authors{А.В.~ГРАБОВОЙ (grabovoy.av@phystech.edu)\\
+\authors{А.И.~БАЗАРОВА (bazarova.ai@phystech.edu)\\
+(Московский физико-технический институт),\\
+А.В.~ГРАБОВОЙ (grabovoy.av@phystech.edu)\\
 (Московский физико-технический институт),\\
 В.В.~СТРИЖОВ, д-р~физ.-мат.~наук (strijov@phystech.edu)\\
 (Вычислительный центр им. А.А. Дородницына ФИЦ ИУ РАН)}
@@ -32,365 +33,367 @@
 \maketitle
 
 \begin{abstract}
-This paper is devoted to the construction of interpretable models in machine learning. 
-It solves the problem of approximating a given set of figures on a contour image.
-Assumptions are introduced that the figures are curves of the second order.
-When approximating figures, information about the type, location and form of curves, as well as the set of their possible transformations, is used.
-Such information is called \textit{expert}, and the machine learning method based on expert information is called \textit {expert learning}.
-It is assumed that the set of shapes is approximated by a set of \textit {local models}.
-Each local model, based on expert information, approximates one shape in the contour image.
-To build models, it is proposed to map second-order curves into a feature space where each local model is a linear model.
-Thus, higher-order curves are recognized using the composition of linear models.
-As an applied problem, the problem of approximating the iris of the eye on a contour image is considered.
+Данная работа посвящена построению интерпретируемых моделей машинного обучения.
+Решается задача аппроксимации набора фигур на контурном изображении.
+Вводятся предположения, что фигуры являются кривыми второго порядка.
+При аппроксимации фигур используются информация о типе, расположении и форме кривых, а также о множестве их возможных преобразований.
+Такая информация называется \textit{экспертной}, а метод машинного обучения, основанный на экспертной информации, называется \textit{обучение с экспертом}.
+Предполагается, что набор фигур аппроксимируется набором \textit{локальных моделей}.
+Каждая локальная модель, основанная на экспертной информации, аппроксимирует одну фигуру на контурном изображении.
+Для построения моделей предлагается отображать кривые второго порядка в пространство признаков, в которой каждая локальная модель является линейной.
+Таким образом, кривые второго порядка аппроксимируются набором линейных моделей.
+В вычислительном эксперименте рассматривается задача аппроксимации радужной оболочки глаза на контурном изображении.
 
 \smallskip\\
-\textit{Ключевые слова}: Mixture of experts; Expert learning;  Linear models; Interpretabe models.
+\textit{Ключевые слова}: смесь экспертов; экспертное обучение; линейные модели; интерпретируемые модели.
 \end{abstract}
 
-\section{Introduction}
-\label{intro}
-Interpretable model building in machine learning~(Ribeiro et al. 2016) is one of the key challenges.
-Modern solutions of the image classification problem based on deep learning networks ResNet, VGG, Intercept~(Kaiming et al. 2016) are poorly interpreted models.
-The papers~(Han et al. 2020; Akhtar et al. 2018) show that deep learning networks are sensitive even to small noise in the data, which is due to their uninterpretability.
+\section{Введение}
+Современные решения задачи классификации изображений на основе сетей глубокого обучения ResNet, VGG, Intercept~\cite{Kaiming2015} представляют собой плохо интерпретируемые модели~\cite{Ribeiro2016}.
+В~\cite{Han2020, Akhtar2018} показано, что сети глубокого обучения являются не устойчивыми даже к небольшому шуму в данных.
 
-In this paper, we propose a \textit {training with an expert} method.
-This method assumes the use of subject knowledge of experts to improve the quality of approximation, as well as to obtain interpretable machine learning models.
-The subject knowledge of experts about the sample will be called~\textit {expert information}.
-It is assumed that the use of expert information allows the sample to be approximated by simple interpretable models, such as linear models. Machine learning methods that take expert knowledge into account when building models are called~\textit {expert learning}.
-
-This paper solves the problem of approximating second-order curves on a contour image. Second-order curves are selected for analysis, since they are easily described by linear models. In this case, these figures need to be restored in such applied problems as the problem of recognizing the iris of the eye~(Matveev 2010; Matveev et al. 2014; Bowyer et al. 2010), the problem of describing the particle track in the hadron collider~(Salamani et al. 2018). Expert information about a second-order curve allows you to map points on a plane into a new feature description, where each curve is approximated by one linear model. A model that approximates one curve is called a \textit {local model}. To approximate the entire contour image, it is required to approximate several second-order curves using several local models. In this paper, the following restrictions on images are introduced: a) the image consists only of second-order curves; b) the image is approximated by a small number of second-order curves; c) the number and type of curves in the image is known.
+В данной работе предлагается метод \textit{обучение с экспертом}.
+Метод предполагает использование экспертной информации для повышения качества аппроксимации, а также для получения интерпретируемых моделей машинного обучения.
+Предметные знания экспертов о данных называются~\textit{экспертная информация}.
+Предполагается, что использование экспертной информации позволяет аппроксимировать выборку простыми интерпретируемыми моделями, такими как линейные модели. Методы машинного обучения, учитывающие экспертные знания при построении моделей, называются~\textit{обучением с экспертом}.
+В данной работе решается задача аппроксимации кривых второго порядка на контурном изображении.
+В работе анализируются кривые второго порядка, так как они описываются линейными моделями. Параметры кривых второго порядка необходимо востановить в задаче распознавания радужной оболочки глаза~\cite{Matveev2010, Matveev2014, Bowyer2010}, в задаче описания трека частицы в адронном коллайдере~\cite{Dalila2018}.
+Экспертная информация о кривой второго порядка отображает точки на плоскости в новое признаковое описание объекта. 
+Каждая кривая аппроксимируется одной линейной моделью.
+Модель, аппроксимирующая кривую, называется \textit{локальной моделью}.
+Для аппроксимации всего контурного изображения требуется аппроксимация нескольких кривых второго порядка с использованием локальных моделей.
+Вводятся следующие ограничения на изображения: а) изображение состоит только из кривых второго порядка; б) изображение аппроксимируется небольшим числом кривых второго порядка; в) известно количество и тип кривых на изображении.
 
 \begin{figure}[h!]
   \includegraphics[width=\textwidth]{explanation}
-  \caption {Example: a) expert information of the first expert; b) baseline data; c) expert information of the second expert}
+  \caption {Пример: a) экспертная информация первого эксперта; b) исходные данные; c) экспертная информация второго эксперта}
   \label{intro:fig2}
 \end{figure}
 
+На рис.~\ref{intro:fig2} показан пример кривых второго порядка, а также экспертная информация о кривых. На рис.~\ref{intro:fig2} слева показана экспертная информация о первом эксперте. Используя эту информацию, первая кривая аппроксимируется линейной моделью, а вторая кривая представляет собой шум. На рис.~\ref{intro:fig2} справа показана экспертная информация второго эксперта. Используя эту информацию, вторая кривая аппроксимируется линейной моделью, а первая кривая представляет собой шум.
 
-Figure~\ref{intro:fig2} shows an example of second-order curves, as well as expert information on curves. Figure~\ref{intro:fig2} a shows the expert information of the first expert. Using this information, the first curve is fitted with a linear model and the second curve is noise. Figure~\ref{intro:fig2} b shows the expert information of the second expert. Using this information, the second curve is fitted with a linear model and the first curve is noise.
+При аппроксимации нескольких кривых на одном контурном изображении строится мультимодель. Примером мультимоделей является случайный лес~\cite{Ishwaran2012}, бустинг деревьев~\cite{Tianqi2016}, смесь экспертов~\cite{Yuksel2012}.
+В данной работе в качестве мультимодели рассматривается смесь экспертов.
+Смесь экспертов — это мультимодель, которая линейно взвешивает локальные модели, которые аппроксимируют часть выборки.
+Значения весовых коэффициентов зависят от объекта, для которого делается прогноз.
+Для решения задачи используется вариационный EM--алгоритм~\cite{Dempster1977, Ebrahimpour2009, Peng1996, Grabovoy2021}.
+Смесь экспертов имеет множество применений в ряде приложений.
+В~\cite{Estabrooks2001} решается задача классификации текстов.
+В~\cite{Cheung1995, Weigend2000, Cao2003, Mossavat2010, Sminchisescu2007, Tuerk2001, Yumlu2003} смесь экспертов используется для прогнозирования временных рядов, для распознавания речи, распознавания повседневной деятельности человека и прогнозирования стоимости ценных бумаг.
+В~\cite{Ebrahimpour2009} рассматривалась смесь экспертов для решения задачи распознавания рукописных цифр на изображениях.
 
-When approximating several curves on one contour image, a multi-model is built. An example of multi-models is a random forest~(Chen et al. 2012), tree boosting~(Chen et al. 2016), a mixture of experts~(Yuksel et al. 2012). In this paper, a mixture of experts is considered as a multi-model. Expert mixture is a multi-model that linearly weights local models that approximate a portion of the sample. The values of the weighting coefficients depend on the object for which the prediction is made. To solve the problem of a mixture of experts, a variational EM-algorithm~(Dempster et al. 1997; Bishop 2010; Peng et al. 1996) is used. The mixture of experts has many uses in a number of applications. In the paper~(Estabrooks et al. 2001), the text classification problem is solved. In the papers~(Cheung et al. 1995; Weigend et al. 2000; Cao 2003; Mossavat et al. 2010; Sminchisescu C et al. 2007; Tuerk 2001; Yumlu et al. 2003), a mixture of experts is used to predict time series for speech recognition, daily human activity, and prediction of the value of securities. In the paper~(Ebrahimpour et al. 2009), a mixture of experts was considered to solve the problem of recognizing handwritten numbers in images.
-
-As an example, the problem of approximation of the iris image is considered. Figure~\ref{intro:fig1:real} shows an example of the image that needs to be approximated. In this paper, we consider a processed image, which is given in outline form, an example of such an image is shown in Figure~\ref{intro:fig1:outer}. Figure~\ref{intro:fig1:outer} shows two local circle models that approximate the iris of the eye. Circumferences are a simple example of a second order curve.
+В качестве примера рассматривается задача аппроксимации изображения радужной оболочки глаза. На рис.~\ref{intro:fig1} показан пример изображения, которое необходимо аппроксимировать.
+В данной работе рассматривается обработанное изображение в виде контурнуго изображения. Например рис.~\ref{intro:fig1} справа.
+На рис.~\ref{intro:fig1} показаны две модели локальных кругов, которые соответствуют радужной оболочке глаза.
 
 \begin{figure}[h!]
-\includegraphics[width=0.5\textwidth]{real_image}\label{intro:fig1:real}
-\includegraphics[width=0.5\textwidth]{outline_image}\label{intro:fig1:outer}
-\caption{An example of the image of the iris of the eye and its outline representation: a) the image of the iris of the eye; b) contour image of the iris and approximating the given image of the circumferences}
+\includegraphics[width=0.5\textwidth]{real_image}
+\includegraphics[width=0.5\textwidth]{outline_image}
+\caption{Пример изображения радужной оболочки глаза и его контурное представление. Слева: изображение радужной оболочки глаза. Справа: контурное изображение радужной оболочки и аппроксимирующие заданное изображение окружностей}
 \label{intro:fig1}
 \end{figure}
 
-For the problem of approximating the iris of the eye, the following expert information is used: the iris of the eye is approximated by two concentric circumferences. Expert information is used to construct a feature description of plane points, as well as to build an optimization function. The part of the error function for optimization that uses expert information is called a regularizer. Thus, the information that the image of the circumferences is specified by the feature description, and the information that the concentric circumferences are specified using a special regularizer.
+Для задачи аппроксимации радужной оболочки используется экспертная информация: радужная оболочка глаза аппроксимируется двумя концентрическими окружностями.
+Экспертная информация используется для построения описания признаков точек плоскости, а также для построения регуляризатора в функции оптимизации.
+Часть функции ошибок для оптимизации, использующая экспертную информацию, называется регуляризатором.
+Таким образом, информация о том, что изображение являются окружностями задается видом признакового описания, а информация о том, что окружности концентрические задается с помощью специального регуляризатора.
 
-In a computational experiment, the quality of the approximation of the contour image is analyzed depending on the specified expert information and on the noise level in the synthetically generated data. The analysis of the quality of the approximation of the iris is carried out, depending on the amount of expert information that was used to build the model. Note that each approximated image is a separate set of points that need to be approximated.
+Вычислительный эксперимент анализирует качество аппроксимации контурного изображения в зависимости от экспертной информации и уровня шума в синтетически сформированных данных. Проведен анализ качества аппроксимации радужной оболочки в зависимости от объема экспертной информации, которая использовалась для построения модели.
+Каждое аппроксимированное изображение представляет собой отдельный набор точек, которые необходимо аппроксимировать.
 
-\section{Statement of the problem of finding the parameters of the second-order curves in the image}
-\label{sec:1}
-Binary image is set:
-$$ \mathbf{M} \in \{0, 1 \}^{m_1\times m_2},$$
-where 1 corresponds to the black point of the image, and 0 corresponds to the white point of the background.
-From the image $\mathbf {M} $, a sample$ \mathbf{C}$ is constructed, the elements of which are the coordinates $(x_i, y_i)$ of black points: $$\mathbf{C} \in \mathbb{R}^{N \times 2}. $$
-The expert assumes that the image consists of a second-order curve~$\Omega$.
-Let for a set of points $\mathbf {C} \in \mathbb {R}^{N \times 2} $ that form a curve $\Omega, $ expert information about the figure $E(\Omega) $is given.
-The set $E (\Omega)$ consists of the shape $\Omega$ expected by the expert and the set of its admissible transformations. Based on the expert description, let us introduce mappings into a new problem for approximation:
-\begin{equation}\label{eq1}
+\section{Постановка задачи востановления параметров кривых второго порядка на изображении}
+Задано бинарное изображение:
+\begin{gather}
+\mathbf{M} \in \{0, 1 \}^{m_1\times m_2},
+\end{gather}
+где~$1$ соответствует черной точке изображения, а~$0$ соответствует белой точке фона.
+Используя изображени~$\mathbf{M}$ строится выборка~$\mathbf{C}$, элементами которой являются координаты~$(x_i, y_i)$ черных точек:
+\begin{gather}
+\mathbf{C} \in \mathbb{R}^{N \times 2}.
+\end{gather}
+Каждый эксперт предполагает, что изображение состоит из кривой второго порядка~$\Omega$.
+Пусть для множества точек~$\mathbf {C} \in \mathbb{R}^{N \times 2} $, образующих кривую $\Omega,$ задана экспертная информация о фигуре $E(\Omega)$.
+Множество $E(\Omega)$ состоит из ожидаемого экспертом образа~$\Omega$ и множества его допустимых преобразований. На основе экспертного описания введем отображения в задачу аппроксимации:
+\begin{gather}
+\label{eq1}
 	K_{x}\bigl(E(\Omega)\bigr): \mathbb{R}^{2} \rightarrow \mathbb{R}^{n}, \quad K_{y}\bigl(E(\Omega)\bigr): \mathbb{R}^{2} \rightarrow \mathbb{R},
-\end{equation} 
-where~$K_{x}$ mapping objects to the attribute description of objects,~$n$is the number of features, and~$K_ {y}$ is a mapping to a target variable for an object. Applying the mappings~$K_ {x}, K_{y}$for the sample~$\mathbf {C}$ element by element we obtain:
-\begin{equation}
+\end{gather} 
+где~$K_{x}$~--- отображение объектов в признаковое описание объектов,~$n$~--- число признаков, а ~$K_{y}$~---  отображение в целевую переменную для аппроксимации. Применяя отображения~$K_{x}, K_{y}$ для выборки~$\mathbf{C}$ поэлементно получаем:
+\begin{gather}
 \label{eq2}
 	K_{x}\bigl(E(\Omega\bigr), \mathbf{c}) = \mathbf{x}, \quad  K_{y}\bigl(E(\Omega), \mathbf{c}\bigr) = y,
-\end{equation}
-where~$\mathbf{c} = (x_i, y_i)$ is a sample point $\mathbf{C}$.
+\end{gather}
+где~$\mathbf{c} = (x_i, y_i)$ точка из множества точек $\mathbf{C}$.
 
-Applying the mappings \eqref{eq2} to the original set of points $\mathbf {C} $, we obtain the sample
-\begin{equation}
+Применяя отображения~\eqref{eq2} к исходному множеству точек~$\mathbf{C}$, получаем выборку
+\begin{gather}
 \label{eq4}
     \mathfrak{D} = \{(\mathbf{x}, y) \; | \; \forall \mathbf{c} \in \mathbf{C} \; \mathbf{x} = K_x(\mathbf{c}), \; y = K_y(\mathbf{c}) \}.
-\end{equation}
+\end{gather}
 
-We get that the original problem of curve approximation~$\Omega$ is reduced to approximation of the sample~$\mathfrak {D}$. In this paper, it is assumed that the sample~$\mathfrak {D}$ is approximated by a linear model:
-\begin{equation}
+Получаем, что исходная задача аппроксимации кривой~$\Omega$ сводится к аппроксимации выборки~$\mathfrak{D}$. В работе предполагается, что выборка~$\mathfrak{D}$ аппроксимируется линейной моделью:
+
+\begin{gather}
 	g(\mathbf{x}, \mathbf{w}) = \mathbf{x}^\mathsf{T} \mathbf{w},
-\end{equation} 
-where~$\mathbf{w}$ vector, the parameter to be found.
+\end{gather} 
+где~$\mathbf{w}$~--- вектор параметров для аппроксимации.
 
-To find the optimal vector of parameters~$\hat {\mathbf {w}}$, it is required to solve the following optimization problem:
-\begin{equation}
+Для нахождения оптимального вектора параметров~$\hat{\mathbf {w}}$ решается оптимизационная задача:
+\begin{gather}
 	\hat{\mathbf{w}} = \arg\min_{\mathbf{w}\in\mathbb{R}^n} \sum_{\left(\mathbf{x}, y\right) \in \mathfrak{D}}\|g(\mathbf{x}, \mathbf{w}) - y \|_2^2.
-\end{equation} 
+\end{gather} 
 
-Thus, the problem of approximating the original curve~$\Omega$ is reduced to solving the problem of linear regression, i.e. finding the components of the vector $\hat{\mathbf {w}}$ connecting the resulting $\mathbf {x}$ and $y$.
+Задача аппроксимации исходной кривой~$\Omega$ сводится к решению задачи линейной регрессии, т.е. к нахождению компонент вектора $\hat{\mathbf{w}}$.
 
-In the case when on the image $K$ the second-order curves  $\Omega_1, \dots, \Omega_K$, for each of which there is expert information $E_k = E (\Omega_k), \, k \in \{1, \dots , K\}$, the problem of constructing a multi-model called a mixture of $K$ experts is posed.
+В случае, когда на изображении~$K$ кривых второго порядка~$\Omega_1, \dots, \Omega_K$, где для каждой задана экспертная информация~$E_k = E(\Omega_k), \, k \in \{1, \dots, K\}.$ Получаем задачу построения мультимодели, которая называется смесью~$K$ экспертов.
+
 \begin{definition}
-We call the multimodel $ f $ a mixture of K experts
-\begin{equation}
+Назовем мультимодель~$f$ смесью~$K$ экспертов
+\begin{gather}
 	f = \sum\limits_{k = 1}^{K}\pi_k(\mathbf{x}, \mathbf{V})g_k(\mathbf{w}_k),  \quad \pi_k(\mathbf{x}, \mathbf{V}): \mathbb{R}^{n\times |\mathbf{V}|} \rightarrow [0, \, 1], \quad \sum\limits_{k = 1}^{K}\pi_k(\mathbf{x}, \mathbf{V}) = 1, 
-\end{equation}
-where $g_k$ is a local model called by the expert, $\mathbf{x}$is an attribute description of an object, $\pi_k$is a gateway function, the vector $\mathbf{w}_k$ are local model parameters, the vector $\mathbf{V}$ are gateway function parameters. In this paper, $g_k$ is a linear model.
+\end{gather}
+где~$g_k$~--- локальная модель, называемая экспертом. Вектор~$\mathbf{x}$~--- признаковое описание объекта, $\pi_k$~--- шлюзовая функция, вектор $\mathbf{w}_k$~--- параметры локальной модели, $\mathbf{V}$ являются параметрами шлюзовой функции.
 \end{definition}
 
-For each second-order curve, mappings (\ref{eq1}) are given. For convenience, we introduce the following notation: $K_x^k\bigr(\mathbf{c}\bigr) = K_x\bigr(\Omega_k, \mathbf{c}\bigr)$ and $K_y^k\bigr(\mathbf{c}\bigr) = K_y\bigr(\Omega_k, \mathbf{c}\bigr)$. Then, using local linear models, we construct a universal multi-model describing the curves $\Omega_1, \dots, \Omega_K$ on the image $\mathbf{M}$:
-\begin{equation}
+Для каждой кривой второго порядка~$\Omega_k$ заданы отображения~\eqref{eq1}. Введем обозначения: $K_x^k\bigr(\mathbf{c}\bigr) = K_x\bigr(\Omega_k, \mathbf{c}\bigr)$ и $K_y^k\bigr(\mathbf{c}\bigr) = K_y\bigr(\Omega_k, \mathbf{c}\bigr)$. Используя локальные линейные моделей~$g_k$ строится мультимодель~$f$, описывающая кривые $\Omega_1, \dots, \Omega_K$ на изображении $\mathbf{M}$:
+\begin{gather}
 \label{5}
 	f = \sum\limits_{\mathbf{c} \in \mathbf{C}} \sum_{k = 1}^{K} \pi_k(\mathbf{c}, \mathbf{V})g_k(K^k_{x}\bigl(\mathbf{c}), \mathbf{w}_k), 
-\end{equation}
-where $\pi_k$ is the  gateway function. In this paper, we consider a simple case, where~$\mathbf{x}=K^1_{x}\bigl(\mathbf{c})=\cdots=K^K_{x}\bigl(\mathbf{c}),$ then the expression~\eqref{5} is rewritten in the following simple form:
-\begin{equation}
+\end{gather}
+где~$\pi_k$~--- шлюзовая функция. В работе рассматривается случай, когда~$\mathbf{x}=K^1_{x}\bigl(\mathbf{c})=\cdots=K^K_{x}\bigl(\mathbf{ c}).$ В этом случае выражение~\eqref{5} переписывается в виде:
+\begin{gather}
 \label{5_1}
 	f = \sum\limits_{\mathbf{c} \in \mathbf{C}} \sum_{k = 1}^{K} \pi_k(\mathbf{x}, \mathbf{V})g_k(\mathbf{x}, \mathbf{w}_k), 
-\end{equation}
-where the gateway function $\pi_k$ has the following form:
-\begin{equation}
+\end{gather}
+где шлюзовая функция~$\pi_k$ имеет вид:
+\begin{gather}
 \label{6}
 	\pi_k(\mathbf{x}, \mathbf{V}): \mathbb{R}^{n\times |\mathbf{V}|} \rightarrow [0, \, 1], \; \; \; \; \sum\limits_{k = 1}^{K}\pi_k(\mathbf{x}, \mathbf{V}) = 1,
-\end{equation}
-where $\mathbf{V}$ are the gateway function parameters, and $g_k$ is a local model.
-    
-In this paper
-\begin{equation}
+\end{gather}
+где~$\mathbf{V}$~--- параметры функции шлюза, а $g_k$~--- локальная модель.
+
+В работе рассматривается следующий вид шлюзовой функции:
+\begin{gather}
     \boldsymbol{\pi}(\mathbf{x}, \mathbf{V}) = \text{softmax}\bigl(\mathbf{V}_1^{\mathsf{T}}\boldsymbol{\sigma}(\mathbf{V}_2^{\mathsf{T}}\mathbf{x}) \bigr),
-\end{equation}
-where $\mathbf{V} = \{ \mathbf{V}_1, \, \mathbf{V}_2\}$ are the gateway function parameters,
-$\mathbf{V}_1 \in \mathbb{R}^{p \times k}, \, \mathbf{V}_2 \in \mathbb{R}^{n \times p}$. 
+\end{gather}
+где~$\mathbf{V} = \{\mathbf{V}_1, \, \mathbf{V}_2\}$~--- параметры шлюзовой функции, $\mathbf{V}_1 \in \mathbb{R}^{p \times k}, \, \mathbf{V}_2 \in \mathbb{R}^{n \times p}$.
 
-To find the optimal parameters of the multi-model, it is necessary to solve the following optimization problem:
-\begin{equation}\label{9}
+Для нахождения оптимальных параметров мультимодели решается оптимизационная задача:
+\begin{gather}
+\label{9}
 \mathcal{L} = \sum\limits_{(\mathbf{x}, y) \in \mathfrak{D}} \sum\limits_{k = 1}^{K} \pi_k(\mathbf{x}, \mathbf{V})(y - \mathbf{w}_k^{\mathsf{T}}\mathbf{x})^2 + R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr) \rightarrow \min_{\mathbf{V}, \mathbf{W}},
-\end{equation}
-where $\mathbf{W} = [\mathbf{w}_1, \dots, \mathbf{w}_k]$ are  parameters of local models, $R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)$ is regularization parameters, based on expert information.
+\end{gather}
+где~$\mathbf{W} = [\mathbf{w}_1, \dots, \mathbf{w}_k]$~--- параметры локальных моделей, $R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)$~--- параметры регуляризации, основанные на экспертной информации.
 
-\section{Building an attribute description of figures}
-\label{sec:3}
-\paragraph{ Unified space for second-order curves.} An arbitrary second-order curve, the main axis of which is not parallel to the ordinate axis, is given by the following expression:
+\section{Построение признакового описания фигур}
+\paragraph{Единое пространство для кривых второго порядка.} Произвольная кривая второго порядка, главная ось которой не параллельна оси ординат, задается  уравнением:
 \[
 \label{st:coef}
 x^2 = B'xy+C'y^2+D'x+E'y+F',
 \]
-where the coefficients $B ', C'$ are subject to restrictions that depend on the type of the curve. The expression~\eqref{eq2} takes the following form:
+где на коэффициенты $B', C'$ накладываются ограничения, зависящие от типа кривой. Выражение~\eqref{eq2} для кривой второго порядка принимает вид:
 \[
 \label{st:K_map}
 K_x\bigr(\mathbf{c}_i\bigr)=\left[x_iy_i, y_i^2, x_i, y_i, 1\right], \quad K_y\bigr(\mathbf{c}_i\bigr)=x_i^2,
 \]
-whence we obtain the linear regression problem for recovering the parameters~$ B ', C', D ', E', F '$ from the selected sample.
+откуда получаем задачу линейной регрессии для восстановления параметров ~$B', C', D', E', F'$ по заданой выборке.
 
-\paragraph{ Circumference.} As a special case of a second-order curve, we consider the circumference.
-Let $(x_0, y_0)$ be the center of the circumference to be found on the binary image $\mathbf {M} $, and $r$ be its radius.
-The sample elements $(x_i, y_i) \in \mathbf {C}$ are the locus of points, which is approximated by the equation of the circumference:
-\begin{equation}
-(x_i - x_0)^2 + (y_i - y_0)^2 = r^2.
-\end{equation}
-Expanding the brackets, we get:
-\begin{equation}(2x_0)\cdot x_i + (2y_0)\cdot y_i + (r^2 - x_0^2 - y_0^2)\cdot 1 = x_i^2 + y_i^2 . 
-\end{equation}
-Then the presentations (\ref{eq2}) take the following form:
-\begin{equation}
+\paragraph{Окружность.} В качестве частного случая кривой второго порядка рассмотривается окружность.
+Пусть~$(x_0, y_0)$~--- центр окружности, которую требуется востаноить на бинарном изображении~$\mathbf{M}$, а $r$~--- ее радиус.
+Элементы выборки~$(x_i, y_i) \in \mathbf{C}$ представляют собой геометрическое место точек, которое аппроксимируется уравнением окружности:
+\begin{gather}(2x_0)\cdot x_i + (2y_0)\cdot y_i + (r^2 - x_0^2 - y_0^2)\cdot 1 = x_i^2 + y_i^2. 
+\end{gather}
+Тогда выражение~\eqref{eq2} принимают следующий вид:
+\begin{gather}
 \label{10}
 K_{x}(\mathbf{c}_i) = [x_i, \, y_i, \, 1] = \mathbf{x}, \,  K_{y}(\mathbf{c}_i) = x_i^2+y_i^2 = y.
-\end{equation} 
-Assign the linear regression problem \eqref{eq4}.
-Vector components $\mathbf{w} = [w_0, \, w_1, \, w_2]^\mathsf{T}$, binding $\mathbf{x}$ and $y$, restore the parameters of the circumference: \begin{equation} x_0 = \frac{w_0}{2}, \; y_0 = \frac{w_1}{2}, \; r = \sqrt{w_3 + x_0^2 + y_0 ^2}.\end{equation}
+\end{gather} 
+Получаем задачу линейной регрессии~\eqref{eq4}.
+Компоненты вектора~$\mathbf{w} = [w_0, \, w_1, \, w_2]^\mathsf{T}$, восстанавливают параметры окружности:
+\begin{gather}
+x_0 = \frac{w_0}{2}, \; y_0 = \frac{w_1}{2}, \; r = \sqrt{w_3 + x_0^2 + y_0 ^2}.
+\end{gather}
 
-\section{Composition of figures}
-\label{sec:4}
-o construct a composition of figures, we will use the expression~\eqref{9}, which takes the following form:
-\begin{equation} 
+\section{Композиция фигур}
+Для построения композиции фигур используется уравнение~\eqref{9}, которое принимает вид:
+\begin{gather} 
 \label{statment:optim:task}
 \begin{aligned}
 \mathcal{L} = \sum\limits_{\mathbf{c} \in \mathbf{C}} \sum\limits_{k = 1}^{K} \pi_k(\mathbf{c}, \mathbf{V})\left(K^{k}_y\bigr(\mathbf{c}\bigr) - \mathbf{w}_k^{\mathsf{T}}K^{k}_x\bigr(\mathbf{c}\bigr)\right)^2 + R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr) \rightarrow \min_{\mathbf{V}, \mathbf{W}},
 \end{aligned}
-\end{equation} 
-where~$K^{k}_x, K^{k}_y$ expert representation of the~$k$-th expert. Assuming that all curves in the image are described by one attribute description $\mathbf {x} =K^{1}_x\bigr(\mathbf{c}\bigr)=\cdots=K^{K}_x\bigr(\mathbf{c}\bigr), x= K^{1}_y\bigr(\mathbf{c}\bigr)=\cdots=K^{K}_y\bigr(\mathbf{c}\bigr),$ we get the following optimization problem:
-\begin{equation} 
+\end{gather}
+где~$K^{k}_x, K^{k}_y$ экспертное представление~$k$-го эксперта. Предполагая, что все кривые на изображении описываются одним описанием признаковым описанием~$\mathbf{x} =K^{1}_x\bigr(\mathbf{c}\bigr)=\cdots=K^{K}_x\bigr( \mathbf{c}\bigr), x= K^{1}_y\bigr(\mathbf{c}\bigr)=\cdots=K^{K}_y\bigr(\mathbf{c}\bigr),$ получаем оптимизационную задачу:
+\begin{gather} 
 \label{statment:optim:task:simp}
 \begin{aligned}
 \mathcal{L} = \sum\limits_{\left(\mathbf{x}, y\right) \in \mathfrak{D}} \sum\limits_{k = 1}^{K} \pi_k(\mathbf{x}, \mathbf{V})\left(y - \mathbf{w}_k^{\mathsf{T}}\mathbf{x}\right)^2 + R\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr) \rightarrow \min_{\mathbf{V}, \mathbf{W}},
 \end{aligned}
-\end{equation} 
+\end{gather}
+где регуляризатор~$R$ учитывает дополнительные ограничения параметров локальных моделей. Для решения задачи оптимизации~\eqref{statment:optim:task:simp} используется EM--алгоритм описанный в работе~\cite{Grabovoy2021}.
 
-As a regularizer~$R$, additional restrictions on the vectors of model parameters are considered. To solve the optimization problem~\eqref{statment:optim:task:simp} it is proposed to use the EM-algorithm.
-
-\section{Computing experiment}
-\label{sec:5}
-
-A computational experiment was carried out to analyze the quality of models of second-order curves in the image. The experiment is divided into several parts. The first part is an experiment with several circumferences in the image. The second part analyzes the convergence of the method depending on the noise level in the data and on the specified expert information. In the third part, an experiment is conducted to approximate the iris of the eye.
-
-\subsection{ Experiment with circumstances }
+\section{Вычислительный эксперимент}
 \begin{figure}[h!]
 	\includegraphics[height = 0.2\textheight]{900.eps}
 	\includegraphics[height = 0.2\textheight]{901.eps}
 	\includegraphics[height = 0.2\textheight]{902.eps}
 
-\caption{Multi-model depending on different prior assumptions and noise level. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
+\caption{Мультимодель в зависимости от уровня шума в выборке. Слева направо: окружности без шума; шум в радиусе круга; шум в радиусе круга, шум по всему изображению.}
 \label{ce:fig3}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[h!]
+\begin{center}
 	\includegraphics[height = 0.2\textheight]{900noise.eps}
-	\includegraphics[height = 0.2\textheight]{901noise.eps}
+	\includegraphics[height = 0.2\textheight]{901noise.eps}\\
 	\includegraphics[height = 0.2\textheight]{902noise.eps}
-\caption{Dependence of the parameters  $r$, $x_0$ and $y_0$ on the iteration number for different prior distributions. From left to right: circumferences without noise; noise in the radius of the circle; noise in the radius of a circle as well as arbitrary points throughout the image.}
+\end{center}
+\caption{Зависимость параметров $r$, $x_0$ и $y_0$ от номера итерации в зависимости от уровня шума в выборке. Слева направо: окружности без шума; шум в радиусе круга; шум в радиусе круга, шум по всему изображению.}
 \label{ce:fig4}
 \end{figure}
 
-In this part of the experiment, an example of training a multi-model is shown to approximate several second-order figures simultaneously. A synthetic sample is used as data, which is obtained by generating three arbitrary non-intersecting circumferences, as well as adding noise to these circumferences. Noise was added to the radius of the circle for each point, and random points were added to the sample that do not belong to circumstances.
+Проведен вычислительный эксперимент по анализу качества аппроксимации кривых второго порядка на изображении. Эксперимент разделен на несколько частей. Первая часть описывает эксперимент с несколькими окружностями на изображении. Во второй части анализируется сходимость метода в зависимости от уровня шума в данных и от заданной экспертной информации. В третьей части проводится эксперимент по аппроксимации радужной оболочки глаза.
 
-Figure~\ref{ce:fig3} shows the result of building an ensemble of locally approximating models that approximate the sample. Each local model approximates one circumference, and when adding different noise, the quality of the approximation will drop.
-Figure~\ref{ce:fig4} shows a graph of the dependence of the radius of the circumferences $r$ and their centers $(x_0, y_0)$ on the iteration number. 
+\subsection{Эксперимент по востановлению параметров окружности}
 
-\subsection{ Experiment with different noise levels and variance of the prior distribution }
+В этой части эксперимента анализируется аппроксимация нескольких кривых второго порядка предложенной мультимоделью. Аппроксимируется сгенерирована синтетическая выборка. Выборка состоит из трех произвольных непересекающихся окружностей. К окружностям добавлен шум. Шум добавлялся к каждой точке окружности по отдельности, а также в выборку добавлялись случайные точки, не относящиеся к обокружности.
+
+На рис.~\ref{ce:fig3} показан результат построения ансамбля локальных аппроксимирующих моделей. Каждая локальная модель аппроксимирует одну окружность. Видно, что при добавлении шума качество аппроксимации падает.
+На рис.~\ref{ce:fig4} показан график зависимости радиуса окружностей~$r$ и их центров~$(x_0, y_0)$ от номера итерации.
+
+\subsection{Анализ качества аппроксимации для выборки с разным уровнем шума}
 \begin{figure}[h!t]
-\includegraphics[width=0.8\textwidth]{beta_gamma}
-\caption{ The result of the approximation for data with different noise levels~$\beta$ and on the variance of the prior distribution~$\gamma$}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{beta_gamma}
+\end{center}
+\caption{Результат аппроксимации данных с разным уровнем шума~$\beta$ и по дисперсии априорного распределения~$\gamma$}
 \label{ce:fig6}
 \end{figure}
 
 \begin{figure}[h!t]
-\includegraphics[width=0.5\textwidth]{3dplot}
-\caption{Dependence of models on the noise level~$\beta$ in the data, as well as on the variance of the prior distribution~$\gamma$}
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{3dplot}
+\end{center}
+\caption{Зависимость моделей от уровня шума~$\beta$ в данных, а также от дисперсии априорного распределения~$\gamma$}
 \label{ce:fig5}
 \end{figure}
-In this part of the experiment, we analyze the quality of approximation~$S$ on the noise level~$\beta$ in the data and on the parameter of a priori distributions~$\gamma$. The sample is obtained as followsfirst, two vectors of parameters are randomly selected~$\mathbf{w}^\text{true}_{1}$ and~$\mathbf{w}^\text{true}_{2}$ are  coefficients of two parabolas. The vectors~$\mathbf {w}^\text {true}_{1} $ and~$\mathbf{w}^\text {true}_{2} $ are used to generate points~$x_i$ and~$y_i$ with normal noise added~$\varepsilon\sim\mathcal {N} \bigr(0,\beta\bigr)$. When training a multi-model, the prior distribution of parameters is considered~$\mathbf{w}_1\sim\mathcal{N}\bigr(\mathbf{w}^\text{true}_{1}, \gamma\mathbf{I}\bigr),\mathbf{w}_2\sim\mathcal{N}\bigr(\mathbf{w}^\text{true}_{2}, \gamma\mathbf{I}\bigr)$.
 
-The following quality criterion is considered:
+В этой части эксперимента анализируется качество аппроксимации~$S$ в зависимости от уровня шума~$\beta$ в данных и от параметра априорных распределений~$\gamma$. Выборка сгенерирована следующим образом: сначала случайным образом выбираются два вектора параметров~$\mathbf{w}^\text{true}_{1}$ и~$\mathbf{w}^\text{true}_{2}$~--- коэффициенты двух парабол. Векторы~$\mathbf {w}^\text {true}_{1}$ и~$\mathbf{w}^\text {true}_{2}$ используются для генерации точек~$x_i$ и~$y_i$ с добавлением нормального шума~$\varepsilon\sim\mathcal {N} \bigr(0,\beta\bigr)$.
+При обучении мультимодели учитывается априорное распределение параметров~$\mathbf{w}_1\sim\mathcal{N}\bigr(\mathbf{w}^\text{true}_{1}, \gamma \mathbf{I}\bigr),\mathbf{w}_2\sim\mathcal{N}\bigr(\mathbf{w}^\text{true}_{2}, \gamma\mathbf{I}\bigr)$.
+
+Рассматривается критерий качества:
 \[
 S = ||\mathbf{w}^\text{pred}_{1} - \mathbf{w}^\text{true}_{1}||^{2}_{2} + ||\mathbf{w}^\text{pred}_{2} - \mathbf{w}^\text{true}_{2}||^{2}_{2},
 \]
-where~$\mathbf{w}^\text{pred}_{1}$ approximation of the vector of parameters of the first local model, and~$\mathbf{w}^\text{pred}_{2}$ approximation of the vector of parameters of the second local model.
+где~$\mathbf{w}^\text{pred}_{1}$ аппроксимация вектора параметров первой локальной модели, а~$\mathbf{w}^\text{pred}_{2}$ аппроксимация вектора параметров второй локальной модели.
 
-Figure~\ref{ce:fig5} shows the dependence of the quality criterion~$S$ on the noise level~$\beta$ and the a priori distribution parameter~$\gamma$. The graph shows that at a low noise level~$\beta$ the quality of the approximation does not depend on the parameter~$\gamma $, and with an increase in the noise~$\beta $ the quality of the approximation~$S$ decreases.
+На рис.~\ref{ce:fig5} показана зависимость критерия качества~$S$ от уровня шума~$\beta$ и параметра априорного распределения~$\gamma$. Из графика видно, что при малом уровне шума~$\beta$ качество аппроксимации не зависит от параметра~$\gamma$, а при увеличении шума~$\beta$ качество аппроксимации~$ S$ уменьшается.
 
-Figure~\ref{ce:fig5} shows an example of how the algorithm works with different parameters~$\beta$ and $\gamma$. It is seen that in the absence of noise~$\beta$, both local models approximate the sample. With an increase in the noise level, the quality of the approximation decreases: at~$\beta = 0 {,}2$, with an increase in $\gamma$, the first local model from a parabola goes over to an ellipse; for~$\beta=0 {,}4$ as $\gamma$ increases, the first local model from a parabola goes over to an ellipse, and the second model from a parabola goes over to a hyperbola.
+На рис.~\ref{ce:fig6} показан пример работы алгоритма с разными параметрами~$\beta$ и $\gamma$. Видно, что в отсутствие шума~$\beta$ обе локальные модели аппроксимируют выборку корректно. С ростом уровня шума качество аппроксимации падает: при~$\beta = 0 {,}2$ с ростом $\gamma$ первая локальная модель из параболы преобразовывается в эллипс; для~$\beta=0 {,}4$ с ростом $\gamma$ первая локальная модель из параболы преобразовывается в эллипс, а вторая модель из параболы в гиперболу.
 
-\subsection{Iris approximations }
+\subsection{Аппроксимация радужки глаза}
 \begin{figure}[h!]
+\begin{center}
 	\includegraphics[height = 0.17\textheight]{not_prior_real_example}
 	\includegraphics[height = 0.17\textheight]{prior_real_example}
 	\includegraphics[height = 0.17\textheight]{prior_regular_real_example}
-\caption{Visualization of the approximation of the iris: a) if the $ R_0 $ regularizer is specified; b) if the $ R_1 $ regularizer is specified; b) if the $ R_2 $ regularizer is specified}
-\label{ce:fig6}
+\end{center}
+\caption{Визуализация аппроксимации радужной оболочки. Слева на право: если указан регуляризатор $R_0$; если указан регуляризатор $R_1$; если указан регуляризатор $R_2$}
+\label{ce:fig6-1}
 \end{figure}
 
-
-\begin{figure}
-     \includegraphics[width=\textwidth]{experiment_real_not_prior}\\
-     \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_0$}
+\begin{figure}[h!]
+\begin{center}
+     \includegraphics[width=\textwidth]{experiment_real_not_prior}
+\end{center}
+     \caption{Визуализация мультимодели в случае регуляризатора~$R_0$}
     \label{ce:fig7}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
+\begin{center}
      \includegraphics[width=\textwidth]{experiment_real_prior}
-     \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_1$}
+\end{center}
+     \caption{Визуализация мультимодели в случае регуляризатора~$R_1$}
     \label{ce:fig8}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[h!]
+\begin{center}
      \includegraphics[width=\textwidth]{experiment_real_regular}
-     \caption{Visualization of the multi-model convergence process in the case of a regularizer~$R_2$}
+\end{center}
+     \caption{Визуализация мультимодели в случае регуляризатора~$R_2$}
     \label{ce:fig9}
 \end{figure}
 
-An analysis of the quality of the approximation is carried out for the problem of approximating the iris of the eye in the image. The iris of the eye consists of two concentric circumferences, therefore, a multi-model is considered, which consists of two experts: each expert approximates one of the circumstances. In a computational experiment, the quality of the approximation of circumferences is compared in the case of specifying different regularizers $R_0, R_1, R_2$. Regularizer$R_0\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)=0,$ that is, there is no regularizer. Regularizer:
+Анализ качества аппроксимации проводится для задачи аппроксимации радужной оболочки глаза на изображении. Радужная оболочка глаза состоит из двух концентрических окружностей, поэтому рассматривается мультимодель, состоящая из двух экспертов: каждый эксперт аппроксимирует одну из окружностей. В вычислительном эксперименте сравнивается качество аппроксимации окружностей в случае задания разных регуляризаторов $R_0, R_1, R_2$. Регуляризатор $R_0\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)=0,$, что соответсвует отсутсвию регуляризатора. Регулятор:
 \[
 R_1\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)= -\sum_{k=1}^{K}\mathbf{w}_k^{\mathsf{T}}\mathbf{w}_k,
 \]
-which romotes near-zero parameters of local models.
-Regularizer 
+что способствует околонулевым параметрам локальных моделей.
+Регулятор
 \[
 R_2\bigl(\mathbf{V}, \mathbf{W}, E(\Omega)\bigr)= -\sum_{k=1}^{K}\mathbf{w}_k^{\mathsf{T}}\mathbf{w}_k + \sum_{k=1}^{K}\sum_{k'=1}^{K}\sum_{j=1}^2\left(w_k^j-w_k'^j\right)^2,\]
-which promotes the coincidence of the centers of the circumferences and close to zero parameters of the model.
-Figure~\ref{ce:fig6} shows the result of the eye iris approximation algorithm after 10 iterations. It can be seen that in the absence of a regularizer, one of the circumferences is found incorrectly. If the regularizer~$R_1 $ is given, the model approximates both circumferences with good quality, but the circumferences are not concentric. In case of specifying the regularizer~$R_2$, we get concentric circumferences on the image.
+что способствует совпадению центров окружностей и близким к нулю параметрам локальных моделей.
 
-Figure~\ref{ce:fig7}--\ref{ce:fig9} shows the process of convergence of multi-models in the case of specifying different regularizers~$R_0, R_1, R_2$. It can be seen that the models with the regularizer type~$R_1$ and~$R_2$ approximate both circumferences, and the multi-model with the$R_0$ regularizer approximates only the large circumference.
+Рис.~\ref{ce:fig6-1} показывает результат аппроксимации радужной оболочки глаза после~$10$ итераций. Видно, что при отсутствии регуляризатора одна из окружностей находится некорректно. В случае задания регуляризатора~$R_1$, модель аппроксимирует обе окружности, но окружности не концентричны. В случае задания регуляризатора~$R_2$ получаем концентрические окружности на изображении.
 
+На рис.~\ref{ce:fig7}--\ref{ce:fig9} показан процесс сходимости мультимоделей в случае указания разных регуляризаторов~$R_0, R_1, R_2$. Видно, что модели с регуляризатором типа~$R_1$ и~$R_2$ аппроксимируют обе окружности, а мультимодель с регуляризатором $R_0$ аппроксимирует только большую окружность.
 
-\section{Conclusion}
+\section{Заключение}
 \label{sec:6}
-The paper proposes a method for constructing interpretable machine learning models based on expert information. The problem of approximation of the second-order curves: parabola, hyperbola, ellipse is considered as a problem. Approximation of curves of the second order is applied in the problem of approximation of the iris of the eye.
+В статье предлагается метод построения интерпретируемых моделей машинного обучения на основе экспертной информации. В качестве задачи рассматривается задача аппроксимации кривых второго порядка: параболы, гиперболы, эллипса. Аппроксимация кривых второго порядка применяется в задаче об аппроксимации радужной оболочки.
 
-An experiment was carried out during which the quality of the approximation of the second-order curves is analyzed depending on the initial noise level in the data, as well as depending on the regularizer. During the experiment, it was shown that with an increase in the noise level in the initial data, the approximation accuracy decreases: with a large noise, the shape of the approximated figure changes from a parabola to a hyperbola.
-A computational experiment was carried out to approximate the iris of the eye using two concentric circles. The experiment shows that regularization based on expert information improves the quality of the approximation.
+Проведен эксперимент, в ходе которого анализируется качество аппроксимации кривых второго порядка в зависимости от начального уровня шума в данных, а также в зависимости от регуляризатора функции ошибки. В ходе эксперимента показано, что с увеличением уровня шума в исходных данных точность аппроксимации снижается: при большом шуме форма аппроксимируемой фигуры меняется с параболы на гиперболу.
+
+Проведен вычислительный эксперимент по аппроксимации радужной оболочки глаза двумя концентрическими окружностями. Эксперимент показывает, что регуляризация на основе экспертной информации улучшает качество аппроксимации.
 
 \begin{thebibliography}{}
-\bibitem{Akhtar2018}
-Akhtar N, Mian A (2018) Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey. IEEE Access 6:14410--14430
-
-\bibitem{bishop2006}
-Bishop C. (2010) Pattern Recognition and Machine Learning. Springer, Berlin 
-
-\bibitem{Bowyer2010}
-Bowyer K, Hollingsworth K, Flynn P (2010) A Survey of Iris Biometrics Research: 2008-2010. Handbook of iris recognition 15--54
-
-\bibitem{Cao2003}
-Cao L (2003) Support vector machines experts for time series forecasting. Neurocomputing 51:321--339
-
-\bibitem{Tianqi2016}
-Chen T, Guestrin C (2016) XGBoost: A Scalable Tree Boosting System. KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 785--794
-
-\bibitem{Ishwaran2012}
-Chen Xi, Ishwaran H (2012) Random Forests for Genomic Data Analysis. Genomics 6:323--329
-
-\bibitem{Cheung1995}
-Cheung Y, Leung W, Xu L (1995) Application of mixture of experts model to financial time series forecasting. In Proc. Int. Conf. Neural Netw. Signal Process. 1--4
-
-\bibitem{Dempster1977}
-Dempster A, Laird N, Rubin D (1997) Maximum Likelihood from Incomplete Data via the EM Algorithm. Journal of the Royal Statistical Society. Series B (Methodological) 39:1--38
-
-\bibitem{Estabrooks2001}
-Estabrooks A, Japkowicz N (2001) A mixture-of-experts framework for text classification. In Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist. 1--8
-
-\bibitem{Ebrahimpour2009}
-Ebrahimpour R, Moradian R, Esmkhani A, Jafarlou F (2009) Recognition of Persian handwritten digits using characterization loci and mixture of experts. J. Digital Content Technol. Appl. 42--46
-
-\bibitem{Han2020}
-Han X, Yao M, Debayan D, Hui L, Ji-Liang T, Anil J (2020) Adversarial Attacks and Defenses in Images, Graphs and Text: A Review. International Journal of Automation and Computing 17:151--178
-
-\bibitem{Kaiming2015}
-Kaiming H, Xiangyu Z, Shaoqing R, Jian S (2016) Deep Residual Learning for Image Recognition. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition 770--778
-
-\bibitem{Matveev2010}
-Matveev I (2010) Detection of iris in image by interrelated maxima of brightness gradient projections. Appl. Comput. Math 9:252--257
-
-\bibitem{Matveev2014}
-Matveev I, Simonenko I (2014) Detecting precise iris boundaries by circular shortest path method. Pattern Recognition and Image Analysis 24:304--309
-
-\bibitem{Mossavat2010}
-Mossavat S, Amft O, Vries B, Petkov P, Kleijn W (2010) A Bayesian hierarchical mixture of experts approach to estimate speech quality. In Proc. 2nd Int. Workshop Qual. Multimedia Exper. 200--205
-
-\bibitem{Peng1996}
-Peng F, Jacobs R, Tanner M (1996) Bayesian inference in mixtures-of-experts and hierarchical mixtures-of-experts models with an application to speech recognition. J. Amer. Stat. Assoc. 91:953--960
-
 \bibitem{Ribeiro2016}
-Ribeiro M, Singh S, Guestrin C (2016) Why Should I Trust You?": Explaining the Predictions of Any Classifier. KDD ’16 Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining 1135--1144
-
+	\textit{Ribeiro M., Singh S., Guestrin C.} Why Should I Trust You?: Explaining the Predictions of Any Classifier // Proc. of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. 2016. P.~1135--1144.
+\bibitem{Kaiming2015}
+	\textit{He K., Ren S., Sun J., Zhang X.} Deep Residual Learning for Image Recognition // Proc. IEEE Conf. on Computer Vision and Pattern Recognition. Las Vegas. 2016. P.~770--778.
+\bibitem{Han2020}
+	\textit{Han X., Yao M., Debayan D., Hui L., Ji-Liang T., Anil J.} Adversarial Attacks and Defenses in Images, Graphs and Text: A Review // International Journal of Automation and Computing. 2020. V.~17. P.~151--178.
+\bibitem{Akhtar2018}
+	\textit{Akhtar N., Mian A.} Threat of Adversarial Attacks on Deep Learning in Computer Vision: A Survey // IEEE Access. 2018. Vol.~6. P.~14410--14430.
+\bibitem{Matveev2010}
+	\textit{Matveev I.} Detection of iris in image by interrelated maxima of brightness gradient projections // Appl. Comput. Math. 2010. Vol.~9. P.~252--257.
+\bibitem{Matveev2014}
+	\textit{Matveev I., Simonenko I.} Detecting precise iris boundaries by circular shortest path method // Pattern Recognition and Image Analysis. 2014. Vol.~24. P.~304--309.
+\bibitem{Bowyer2010}
+	\textit{Bowyer K., Hollingsworth K., Flynn P.} A Survey of Iris Biometrics Research: 2008-2010 // Handbook of iris recognition. 2010. P.~15--54.
 \bibitem{Dalila2018}
-Salamani D, Gadatsch S, Golling T,  Stewart G, Ghosh A,  Rousseau D,  Hasib A,  Schaarschmidt J (2018) Deep Generative Models for Fast Shower Simulation in ATLAS. 2018 IEEE 14th International Conference on e-Science (e-Science) \text{https://doi.org/10.1109/eScience.2018.00091}
-
-\bibitem{Sminchisescu2007}
-Sminchisescu C, Kanaujia A, Metaxas D (2007) Discriminative density propagation for visual tracking. IEEE Trans. Pattern Anal. Mach. Intell. 29:2030--2044
-
-\bibitem{Tuerk2001}
-Tuerk A (2001) The state based mixture of experts HMM with applications to the recognition of spontaneous speech. Ph.D. thesis, University of Cambridge.
-
-\bibitem{Weigend2000}
-Weigend A, Shi S (2000) Predicting daily probability distributions of S\&P500 returns. J. Forecast 19:375--392
-
+	\textit{Salamani D., Gadatsch S., Golling T.,  Stewart G., Ghosh A.,  Rousseau D.,  Hasib A.,  Schaarschmidt J.} Deep Generative Models for Fast Shower Simulation in ATLAS // IEEE 14th International Conference on e-Science. 2018. P.~348--348.
+\bibitem{Ishwaran2012}
+	\textit{Chen Xi., Ishwaran H.} Random Forests for Genomic Data Analysis // Genomics. 2012. Vol.~6. P.~323--329.
+\bibitem{Tianqi2016}
+	\textit{Chen T., Guestrin C.} XGBoost: A Scalable Tree Boosting System // Proc. of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. 2016. P.~785--794.
 \bibitem{Yuksel2012}
-Yuksel S, Wilson J, Gader P (2012) Twenty Years of Mixture of Experts. IEEE Transactions on Neural Networks and Learning Systems 8:1177--1193
-
+	\textit{Yuksel S., Wilson J., Gader P.} Twenty Years of Mixture of Experts // IEEE Transactions on Neural Networks and Learning Systems. 2012. Vol.~8. P.~1177--1193.
+\bibitem{Dempster1977}
+	\textit{Dempster A., Laird N., Rubin D.} Maximum Likelihood from Incomplete Data via the EM Algorithm // Journal of the Royal Statistical Society. Series B (Methodological). 1977. Vol.~39. P.~1--38.
+\bibitem{Ebrahimpour2009}
+	\textit{Ebrahimpour R., Moradian R., Esmkhani A., Jafarlou F.} Recognition of Persian handwritten digits using characterization loci and mixture of experts // J. Digital Content Technol. Appl. 2009. P.~42--46.
+\bibitem{Peng1996}
+	\textit{Peng F., Jacobs R., Tanner M.} Bayesian inference in mixtures-of-experts and hierarchical mixtures-of-experts models with an application to speech recognition // J. Amer. Stat. Assoc. 1996. Vol.~91. P.~953--960.
+\bibitem{Estabrooks2001}
+	\textit{Estabrooks A., Japkowicz N.} A mixture-of-experts framework for text classification // Proc. Workshop Comput. Natural Lang. Learn., Assoc. Comput. Linguist. 2001. P.~1--8.
+\bibitem{Cheung1995}
+	\textit{Cheung Y., Leung W., Xu L.} Application of mixture of experts model to financial time series forecasting // Proc. Int. Conf. Neural Netw. Signal Process. 1995. P.~1--4.
+\bibitem{Weigend2000}
+	\textit{Weigend A., Shi S.} Predicting daily probability distributions of S\&P500 returns // J. Forecast. 2000. Vol.~19. P.~375--392.
+\bibitem{Cao2003}
+	\textit{Cao L.} Support vector machines experts for time series forecasting // Neurocomputing. 2003. Vol.~51. P.~321--339.
+\bibitem{Mossavat2010}
+	\textit{Mossavat S., Amft O., Vries B., Petkov P., Kleijn W.} A Bayesian hierarchical mixture of experts approach to estimate speech quality // Proc. 2nd Int. Workshop Qual. Multimedia Exper. 2010. P.~200--205.
+\bibitem{Sminchisescu2007}
+	\textit{Sminchisescu C., Kanaujia A., Metaxas D.} Discriminative density propagation for visual tracking // IEEE Trans. Pattern Anal. Mach. Intell. 2007. Vol.~29. P.~2030--2044.
+\bibitem{Tuerk2001}
+	\textit{Tuerk A.} The state based mixture of experts HMM with applications to the recognition of spontaneous speech // Ph.D. thesis, University of Cambridge. 2001.
 \bibitem{Yumlu2003}
-Yumlu M, Gurgen F,  Okay N (2003) Financial time series prediction using mixture of experts. In Proc. 18th Int. Symp. Comput. Inf. Sci. 553--560
-
-%\bibitem{RefJ}
-% Format for Journal Reference
-%Author, Article title, Journal, Volume, page numbers (year)
-% Format for books
-%\bibitem{RefB}
-%Author, Book title, page numbers. Publisher, place (year)
-% etc
+	\textit{Yumlu M., Gurgen F.,  Okay N.} Financial time series prediction using mixture of experts // Proc. 18th Int. Symp. Comput. Inf. Sci. 2003. P.~553--560.
+\bibitem{Grabovoy2021}
+	\textit{Grabovoy A., Strijov V.} Prior Distribution Selection for a Mixture of Experts // Comput. Math. and Math. Phys. 2021. P.~1140–-1152.
 \end{thebibliography}
 
 \end{document}
-% end of file template.tex
-
